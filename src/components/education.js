@@ -44,35 +44,40 @@ export default function Education() {
   return (
     <>
       {/* Education */}
-      <section id="education" style={{ padding: '100px 0', borderTop: '1px solid var(--border)' }}>
+      <section id="education" style={{ padding: '80px 0', borderTop: '1px solid var(--border)' }}>
         <div className="container-main">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} style={{ marginBottom: 48 }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} style={{ marginBottom: 32 }}>
             <div className="section-label">Education</div>
             <h2 style={{ color: '#e2e8f0', fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em' }}>Academic Background</h2>
           </motion.div>
 
-          <motion.div variants={container} initial="hidden" whileInView="visible" viewport={{ once: true }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {education.map(edu => (
+          <motion.div variants={container} initial="hidden" whileInView="visible" viewport={{ once: true }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 0, border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}
+          >
+            {education.map((edu, idx) => (
               <motion.div key={edu.institution} variants={item} style={{
-                background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10,
-                padding: '20px 24px', display: 'grid', gridTemplateColumns: '1fr auto', gap: 16, alignItems: 'center',
+                display: 'flex', alignItems: 'center', gap: 16,
+                padding: '14px 20px',
+                background: 'var(--bg-card)',
+                borderBottom: idx < education.length - 1 ? '1px solid var(--border)' : 'none',
                 borderLeft: `3px solid ${edu.color}`,
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = edu.color; }}
-              onMouseLeave={e => { e.currentTarget.style.borderLeft = `3px solid ${edu.color}`; e.currentTarget.style.borderTop = '1px solid var(--border)'; e.currentTarget.style.borderRight = '1px solid var(--border)'; e.currentTarget.style.borderBottom = '1px solid var(--border)'; }}
               >
-                <div>
-                  <h3 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.95rem', marginBottom: 4 }}>{edu.institution}</h3>
-                  <p style={{ color: 'var(--muted)', fontSize: '0.82rem', marginBottom: 8 }}>{edu.degree}</p>
-                  <span style={{
-                    display: 'inline-block', background: `${edu.color}18`,
-                    border: `1px solid ${edu.color}40`, color: edu.color,
-                    fontSize: '0.72rem', fontWeight: 700, padding: '3px 10px', borderRadius: 4,
-                  }}>{edu.highlight}</span>
+                {/* Institution + degree */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '0.88rem' }}>{edu.institution}</span>
+                  <span style={{ color: '#4a6080', fontSize: '0.8rem', marginLeft: 8 }}>· {edu.degree}</span>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ color: 'var(--muted)', fontSize: '0.78rem', fontWeight: 600 }}>{edu.period}</p>
-                  <p style={{ color: '#4a6080', fontSize: '0.72rem', marginTop: 4 }}>{edu.location}</p>
+                {/* Grade badge */}
+                <span style={{
+                  background: `${edu.color}18`, border: `1px solid ${edu.color}35`,
+                  color: edu.color, fontSize: '0.7rem', fontWeight: 700,
+                  padding: '2px 10px', borderRadius: 4, whiteSpace: 'nowrap', flexShrink: 0,
+                }}>{edu.highlight}</span>
+                {/* Period + location */}
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <p style={{ color: '#718096', fontSize: '0.75rem', fontWeight: 600 }}>{edu.period}</p>
+                  <p style={{ color: '#4a6080', fontSize: '0.68rem', marginTop: 2 }}>{edu.location}</p>
                 </div>
               </motion.div>
             ))}
