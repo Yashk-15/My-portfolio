@@ -18,7 +18,7 @@ export default function Hero() {
           >
             {/* Role label */}
             <div className="section-label" style={{ marginBottom: 24 }}>
-              Full Stack Developer
+              Frontend Developer | React · Next.js · Flutter · AWS
             </div>
 
             {/* Name */}
@@ -41,7 +41,7 @@ export default function Hero() {
               maxWidth: '420px',
               marginBottom: 36,
             }}>
-              Building fast, scalable, and user-centric web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value—improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
+              Building fast, scalable, web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value, improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
             </p>
 
             {/* Buttons */}

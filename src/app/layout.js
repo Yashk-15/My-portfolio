@@ -10,7 +10,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="bg-anim-wrapper">
+          <div className="bg-glow-teal" />
+          <div className="bg-glow-blue" />
+          <div className="bg-grid" />
+        </div>
+        
+        {/* Main Content Wrapper */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

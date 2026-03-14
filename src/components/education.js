@@ -8,7 +8,7 @@ const education = [
     degree: 'B.Tech — Computer Science (Software Engineering)',
     period: 'July 2023 – May 2027',
     location: 'Chennai, India',
-    highlight: 'CGPA: 8.88 / 10.0',
+    highlight: 'CGPA: 8.98 / 10.0',
     color: 'var(--teal)',
   },
   {
@@ -103,8 +103,8 @@ export default function Education() {
                 transition: 'border-color 0.2s ease, transform 0.2s ease',
                 borderLeft: `3px solid ${cert.color}`,
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <h3 style={{ color: '#e2e8f0', fontWeight: 600, fontSize: '0.85rem', lineHeight: 1.4, flex: 1 }}>{cert.title}</h3>

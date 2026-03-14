@@ -60,6 +60,7 @@ const projects = [
     ],
     techLogos: ['Next.js', 'React.js', 'Tailwind CSS', 'CoinGecko API'],
     github: 'https://github.com/Yashk-15',
+    liveUrl: 'https://new-crytpo-pulse.vercel.app/',
   },
   {
     category: 'web',
@@ -232,15 +233,38 @@ function ProjectCard({ proj, i }) {
         }} />
         {/* Type badge */}
         <span style={{
-          position: 'absolute', top: 10, right: 10,
-          background: 'rgba(13,27,42,0.85)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
-          fontSize: '0.6rem', fontWeight: 700,
-          padding: '3px 9px', borderRadius: 4,
-          backdropFilter: 'blur(8px)',
-          letterSpacing: '0.05em',
-        }}>{proj.type}</span>
+          position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8
+        }}>
+          {proj.liveUrl && (
+            <div style={{
+              background: 'rgba(13,27,42,0.85)',
+              border: '1px solid rgba(0,217,181,0.2)',
+              color: 'var(--teal)',
+              fontSize: '0.6rem', fontWeight: 700,
+              padding: '4px 10px', borderRadius: 6,
+              backdropFilter: 'blur(8px)',
+              letterSpacing: '0.05em',
+              display: 'flex', alignItems: 'center', gap: 6,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+            }}>
+              <span style={{
+                width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)',
+                boxShadow: '0 0 8px var(--teal)', animation: 'pulse-dot 2s infinite'
+              }} />
+              Live
+            </div>
+          )}
+
+          <span style={{
+            background: 'rgba(13,27,42,0.85)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
+            fontSize: '0.6rem', fontWeight: 700,
+            padding: '3px 9px', borderRadius: 4,
+            backdropFilter: 'blur(8px)',
+            letterSpacing: '0.05em',
+          }}>{proj.type}</span>
+        </span>
       </div>
 
       {/* ── Body ── */}
@@ -287,12 +311,29 @@ function ProjectCard({ proj, i }) {
         </ul>
 
         {/* CTA */}
-        <a href={proj.github} target="_blank" rel="noopener noreferrer"
-          className="btn-outline"
-          style={{ fontSize: '0.7rem', padding: '7px 16px', display: 'inline-flex', alignItems: 'center', gap: 7, width: 'fit-content' }}
-        >
-          <FaGithub size={12} /> View Code
-        </a>
+        {proj.liveUrl && (
+          <a href={proj.liveUrl} target="_blank" rel="noopener noreferrer"
+            style={{
+              fontSize: '0.75rem', padding: '7px 18px', display: 'inline-flex', alignItems: 'center', gap: 7, width: 'fit-content',
+              background: 'rgba(0,217,181,0.1)', color: 'var(--teal)', border: '1px solid rgba(0,217,181,0.2)',
+              borderRadius: 6, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s'
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(0,217,181,0.2)';
+              e.currentTarget.style.borderColor = 'rgba(0,217,181,0.4)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(0,217,181,0.1)';
+              e.currentTarget.style.borderColor = 'rgba(0,217,181,0.2)';
+            }}
+          >
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%', background: 'var(--teal)',
+              boxShadow: '0 0 10px var(--teal)',
+            }} />
+            Live Preview
+          </a>
+        )}
       </div>
     </motion.div>
   );
@@ -319,9 +360,6 @@ export default function Projects() {
           <h2 style={{ color: '#e2e8f0', fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em' }}>
             Projects
           </h2>
-          <p style={{ color: 'var(--muted)', fontSize: '0.87rem', marginTop: 8, maxWidth: 480, lineHeight: 1.6 }}>
-            Categorized by domain — web development, cloud infrastructure, and mobile apps.
-          </p>
         </motion.div>
 
         {/* Category tabs */}
@@ -376,18 +414,16 @@ export default function Projects() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Replace note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          style={{ color: '#2d4a6b', fontSize: '0.72rem', marginTop: 20, textAlign: 'center' }}
-        >
-          💡 Replace preview images in <code style={{ color: '#3d5a7a' }}>/public</code> with your actual screenshots or screen recordings anytime.
-        </motion.p>
-
       </div>
+
+      {/* Global styles for pulse animation */}
+      <style>{`
+        @keyframes pulse-dot {
+          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 217, 181, 0.7); opacity: 1; }
+          70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 217, 181, 0); opacity: 0.8; }
+          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 217, 181, 0); opacity: 1; }
+        }
+      `}</style>
     </section>
   );
 }

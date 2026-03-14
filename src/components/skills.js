@@ -15,7 +15,6 @@ const skills = [
   { name: 'Next.js', icon: <SiNextdotjs size={32} />, color: '#fff' },
   { name: 'Tailwind CSS', icon: <SiTailwindcss size={32} />, color: '#38BDF8' },
   { name: 'Python', icon: <FaPython size={32} />, color: '#3776AB' },
-  { name: 'C++', icon: <TbBrandCpp size={32} />, color: '#00599C' },
   { name: 'MySQL', icon: <SiMysql size={32} />, color: '#4479A1' },
   { name: 'AWS', icon: <FaAws size={32} />, color: '#FF9900' },
   { name: 'GitHub', icon: <FaGithub size={32} />, color: '#fff' },
@@ -82,7 +81,7 @@ export default function Skills() {
                 }}
               >
                 <span style={{ color: skill.color, display: 'flex' }}>{skill.icon}</span>
-                
+
                 {/* Colored bottom bar */}
                 <div style={{
                   position: 'absolute',

@@ -80,15 +80,15 @@ export default function About() {
               Know a little about me
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.85, marginBottom: 16 }}>
-              I'm a passionate <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Full Stack Developer</span> and{' '}
+              I'm a <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Frontend & Cloud Developer</span> and{' '}
               <span style={{ color: 'var(--teal)', fontWeight: 600 }}>AWS Certified Cloud Practitioner</span> pursuing my B.Tech in
-              Computer Science (Software Engineering) at SRM Institute of Science and Technology, Chennai — with a CGPA of 8.88/10.
+              Computer Science (Software Engineering) at SRM Institute of Science and Technology, Chennai
             </p>
             <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.85, marginBottom: 24 }}>
-              I love building real-world applications that are fast, scalable, and beautifully designed. My journey spans
-              from working with{' '}
-              <span style={{ color: '#e2e8f0', fontWeight: 500 }}>React & Next.js</span> on the frontend to{' '}
-              <span style={{ color: '#e2e8f0', fontWeight: 500 }}>MySQL & AWS</span> on the backend and cloud.
+              I love building real-world applications that are fast, scalable, and beautifully designed. My work spans
+              <span style={{ color: '#e2e8f0', fontWeight: 500 }}> React & Next.js</span> on the frontend,{' '}
+              <span style={{ color: '#e2e8f0', fontWeight: 500 }}>Flutter</span> for mobile, and{' '}
+              <span style={{ color: '#e2e8f0', fontWeight: 500 }}>AWS serverless infrastructure</span> — including Lambda, DynamoDB, Cognito, and EventBridge.{' '}
               I'm always exploring new tools and patterns to push the quality of my work.
             </p>
 

@@ -19,35 +19,69 @@ html { scroll-behavior: smooth; }
 
 body {
   background-color: var(--bg);
+  /* Dark space gradient blending */
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 217, 181, 0.04), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(79, 142, 247, 0.04), transparent 25%);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* Pixel block decorations at corners */
-body::before {
-  content: '';
+/* Background Animation Wrapper */
+.bg-anim-wrapper {
   position: fixed;
-  top: 0; right: 0;
-  width: 220px; height: 220px;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(0,217,181,0.04) 14px, rgba(0,217,181,0.04) 15px),
-    repeating-linear-gradient(90deg, transparent, transparent 14px, rgba(0,217,181,0.04) 14px, rgba(0,217,181,0.04) 15px);
-  pointer-events: none;
+  top: 0; left: 0; right: 0; bottom: 0;
   z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-body::after {
-  content: '';
-  position: fixed;
-  bottom: 0; left: 0;
-  width: 220px; height: 220px;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 14px, rgba(0,217,181,0.04) 14px, rgba(0,217,181,0.04) 15px),
-    repeating-linear-gradient(90deg, transparent, transparent 14px, rgba(0,217,181,0.04) 14px, rgba(0,217,181,0.04) 15px);
-  pointer-events: none;
-  z-index: 0;
+
+/* Ambient glowing orbs */
+.bg-glow-teal, .bg-glow-blue {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float 20s infinite ease-in-out alternate;
+}
+
+/* Teal ambient glow */
+.bg-glow-teal {
+  top: -10%; left: -10%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(0, 217, 181, 0.15), transparent 60%);
+  animation-delay: 0s;
+}
+
+/* Deep blue ambient glow */
+.bg-glow-blue {
+  bottom: -20%; right: -10%;
+  width: 60vw; height: 60vw;
+  background: radial-gradient(circle, rgba(79, 142, 247, 0.15), transparent 70%);
+  animation-duration: 25s;
+}
+
+/* Grid overlay for texture */
+.bg-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+}
+
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3%, -5%) scale(1.05); }
+  66% { transform: translate(-2%, 4%) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 /* Custom scrollbar */

@@ -35,9 +35,8 @@ export default function Contact() {
           >
             {[
               { icon: <FaEnvelope size={15} />, label: 'yashsk1505@gmail.com', href: 'mailto:yashsk1505@gmail.com', color: '#f87171' },
-              { icon: <FaPhone size={15} />, label: '+91 8847629417', href: 'tel:+918847629417', color: '#34d399' },
-              { icon: <FaGithub size={15} />, label: 'github.com/yashsk', href: 'https://github.com/yashsk', color: '#e2e8f0' },
-              { icon: <FaLinkedin size={15} />, label: 'linkedin.com/in/yash-kaushik', href: 'https://linkedin.com/in/yash-kaushik', color: '#60a5fa' },
+              { icon: <FaGithub size={15} />, label: 'github.com/yashsk', href: 'https://github.com/yashk-15', color: '#e2e8f0' },
+              { icon: <FaLinkedin size={15} />, label: 'linkedin.com/in/yash-kaushik', href: 'https://linkedin.com/in/yashk15', color: '#60a5fa' },
               { icon: <FaMapMarkerAlt size={15} />, label: 'Chennai, TN — India', href: null, color: '#f97316' },
             ].map(c => (
               <div key={c.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
