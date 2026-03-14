@@ -41,11 +41,7 @@ export default function Hero() {
               maxWidth: '420px',
               marginBottom: 36,
             }}>
-              Building fast, scalable, and beautiful web applications with{' '}
-              <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Next.js</span>,{' '}
-              <span style={{ color: 'var(--teal)', fontWeight: 600 }}>React</span>, and{' '}
-              <span style={{ color: 'var(--teal)', fontWeight: 600 }}>AWS</span>.
-              AWS Certified Cloud Practitioner based in Chennai, India.
+              Building fast, scalable, and user-centric web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value—improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
             </p>
 
             {/* Buttons */}
@@ -72,8 +68,8 @@ export default function Hero() {
             <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
               {[
                 { icon: <FaEnvelope size={16} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
-                { icon: <FaGithub size={16} />, href: 'https://github.com/yashsk', label: 'GitHub' },
-                { icon: <FaLinkedin size={16} />, href: 'https://linkedin.com/in/yash-kaushik', label: 'LinkedIn' },
+                { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
+                { icon: <FaLinkedin size={16} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
               ].map(s => (
                 <motion.a
                   key={s.label}

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import {
   FaGithub, FaAws, FaMobileAlt, FaReact, FaPython, FaDatabase,
@@ -15,28 +15,28 @@ import { TbBrandOpenai } from 'react-icons/tb';
 
 // ── Icon map ────────────────────────────────────────────
 const ICONS = {
-  'Next.js':        { icon: <SiNextdotjs size={14} />,      color: '#fff' },
-  'React.js':       { icon: <FaReact size={14} />,          color: '#61DAFB' },
-  'Tailwind CSS':   { icon: <SiTailwindcss size={14} />,    color: '#38BDF8' },
-  'Framer Motion':  { icon: <SiFramer size={14} />,         color: '#FF5733' },
-  'AWS Cognito':    { icon: <FaAws size={14} />,            color: '#FF9900' },
-  'Lambda':         { icon: <FaAws size={14} />,            color: '#FF9900' },
-  'DynamoDB':       { icon: <SiAmazondynamodb size={14} />, color: '#4053D6' },
-  'API Gateway':    { icon: <FaAws size={14} />,            color: '#FF9900' },
-  'Flutter':        { icon: <SiFlutter size={14} />,        color: '#54C5F8' },
-  'Firebase':       { icon: <SiFirebase size={14} />,       color: '#FFCA28' },
-  'Riverpod':       { icon: <FaDatabase size={14} />,       color: '#a78bfa' },
-  'Dart':           { icon: <SiDart size={14} />,           color: '#00B4AB' },
-  'Firestore':      { icon: <SiFirebase size={14} />,       color: '#FFCA28' },
-  'CoinGecko API':  { icon: <TbBrandOpenai size={14} />,    color: '#8DC63F' },
-  'OpenWeather API':{ icon: <TbBrandOpenai size={14} />,    color: '#f97316' },
-  'CSS':            { icon: <FaReact size={14} />,          color: '#38BDF8' },
+  'Next.js': { icon: <SiNextdotjs size={14} />, color: '#fff' },
+  'React.js': { icon: <FaReact size={14} />, color: '#61DAFB' },
+  'Tailwind CSS': { icon: <SiTailwindcss size={14} />, color: '#38BDF8' },
+  'Framer Motion': { icon: <SiFramer size={14} />, color: '#FF5733' },
+  'AWS Cognito': { icon: <FaAws size={14} />, color: '#FF9900' },
+  'Lambda': { icon: <FaAws size={14} />, color: '#FF9900' },
+  'DynamoDB': { icon: <SiAmazondynamodb size={14} />, color: '#4053D6' },
+  'API Gateway': { icon: <FaAws size={14} />, color: '#FF9900' },
+  'Flutter': { icon: <SiFlutter size={14} />, color: '#54C5F8' },
+  'Firebase': { icon: <SiFirebase size={14} />, color: '#FFCA28' },
+  'Riverpod': { icon: <FaDatabase size={14} />, color: '#a78bfa' },
+  'Dart': { icon: <SiDart size={14} />, color: '#00B4AB' },
+  'Firestore': { icon: <SiFirebase size={14} />, color: '#FFCA28' },
+  'CoinGecko API': { icon: <TbBrandOpenai size={14} />, color: '#8DC63F' },
+  'OpenWeather API': { icon: <TbBrandOpenai size={14} />, color: '#f97316' },
+  'CSS': { icon: <FaReact size={14} />, color: '#38BDF8' },
 };
 
 // ── Category tabs ────────────────────────────────────────
 const categories = [
   { id: 'web', label: 'Web Development', icon: <MdWeb size={15} /> },
-  { id: 'aws', label: 'AWS & Cloud',     icon: <FaAws size={13} /> },
+  { id: 'aws', label: 'AWS & Cloud', icon: <FaAws size={13} /> },
   { id: 'app', label: 'App Development', icon: <FaMobileAlt size={13} /> },
 ];
 
@@ -49,12 +49,14 @@ const projects = [
     date: 'August 2025',
     type: 'Self Project',
     image: '/project-crypto.png',
+    video: '/crypto pulse.mp4',
     description:
-      'Responsive cryptocurrency dashboard using Next.js and CoinGecko API with live market data, interactive charts, search, liquidity analysis, and a localStorage-based watchlist.',
+      'Built a crypto dashboard with Next.js and CoinGecko API that covers live prices, charts, liquidity metrics, and portfolio tracking — the kind of all-in-one tool most people pay for on CoinMarketCap',
     highlights: [
-      'Live market data with real-time price charts and watchlist features',
-      'Individual coin pages with price trends and key metrics',
-      'Search, Portfolio tracker & personalised Watchlist via localStorage',
+      'Custom in-memory search cache with a 5-minute TTL, LRU-style eviction, and a 5-second abort timeout — fast results without hammering the API on every keystroke',
+      'localStorage-based Watchlist & Portfolio tracker with real-time cross-tab sync via custom browser events — changes reflect instantly, no backend needed',
+      "Dedicated Liquidity Analysis page with 24h volume trends, a liquidity risk score, and top-5 coins by volume — something most dashboards don't provide",
+      'Next.js API routes as a proxy layer with 60-second revalidation caching, keeping the CoinGecko free-tier limit intact across user interactions',
     ],
     techLogos: ['Next.js', 'React.js', 'Tailwind CSS', 'CoinGecko API'],
     github: 'https://github.com/Yashk-15',
@@ -66,12 +68,14 @@ const projects = [
     date: 'June 2025',
     type: 'Self Project',
     image: '/project-weather.png',
+    video: '/cosmic video.mp4', // Optional video file
     description:
-      'Space-themed weather dashboard with real-time OpenWeather API data, dynamic galaxy backgrounds, glassmorphism card UI, and Framer Motion animations.',
+      'Built a weather app in React where the entire background visually reacts to live weather conditions — cloudy, rainy, or clear sky each trigger a different full-screen background, making the UI feel alive rather than just displaying data',
     highlights: [
-      'Real-time weather via OpenWeather API with animated galaxy backgrounds',
-      'Glassmorphism cards with blur effects, icons and responsive layout',
-      'Framer Motion transitions and interactive animated search input',
+      'Layered a tsparticles starfield with 120 twinkling particles on top of weather-reactive backgrounds, so the cosmic theme stays consistent regardless of what the weather API returns',
+      "Used Framer Motion's AnimatePresence with enter/exit transitions on the weather card, meaning when you switch cities the old card animates out before the new one fades in",
+      'Incorporate a spring-physics focus animation via Framer Motion on the search input, which makes it feel noticeably more polished',
+      'Routed API calls through an AWS Lambda function instead of calling OpenWeather directly from the browser, keeping the API key off the client side entirely',
     ],
     techLogos: ['React.js', 'OpenWeather API', 'Framer Motion', 'CSS'],
     github: 'https://github.com/Yashk-15',
@@ -83,13 +87,14 @@ const projects = [
     date: '2025',
     type: 'Self Project',
     image: '/project-urlmonitor.png',
+    video: '/URL monitoring video.mp4',
     description:
-      'Full-stack serverless URL monitoring dashboard with real-time uptime tracking, response-time analytics, and incident detection across multiple endpoints.',
+      'Built a serverless URL monitoring dashboard where AWS Lambda + EventBridge automatically checks URLs on a schedule, stores results in DynamoDB, and surfaces live uptime, response time, and incidents on a Next.js frontend',
     highlights: [
-      'JWT auth via AWS Cognito — email verification, protected routes & session persistence',
-      'Data table with drag-and-drop, column controls, pagination & per-row charts',
-      'Interactive area chart for response-time trends (7d / 30d / 90d)',
-      'Incident timeline with severity classification (critical / warning)',
+      'Integrated AWS Cognito for full auth flow — signup, email verification, JWT-based API calls, and auto-redirect on token expiry',
+      'Built a drag-and-drop table with dnd-kit + TanStack Table with inline per-URL performance charts that only fetch data when a row is expanded',
+      'Wrote a time-bucketing algorithm for the response time chart that uses 2-hour slots instead of daily buckets, so recent data stays readable on the 7-day view',
+      'Derived an incident timeline directly from DynamoDB logs by filtering failed checks and grouping them by date — no separate incidents table needed'
     ],
     techLogos: ['Next.js', 'AWS Cognito', 'Lambda', 'DynamoDB', 'API Gateway', 'Tailwind CSS'],
     github: 'https://github.com/Yashk-15',
@@ -139,6 +144,157 @@ function TechChip({ tech }) {
       {def?.icon}
       {tech}
     </span>
+  );
+}
+
+// ── Project Card Component ─────────────────────────────────
+function ProjectCard({ proj, i }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const videoRef = useRef(null);
+
+  return (
+    <motion.div
+      custom={i}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border)',
+        borderRadius: 12, overflow: 'hidden',
+        display: 'flex', flexDirection: 'column',
+        transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
+      }}
+      onMouseEnter={e => {
+        setIsHovered(true);
+        if (videoRef.current) {
+          videoRef.current.currentTime = 0;
+          videoRef.current.play().catch(err => console.log('Video autoplay prevented', err));
+        }
+        e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+      }}
+      onMouseLeave={e => {
+        setIsHovered(false);
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
+        e.currentTarget.style.borderColor = 'var(--border)';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      {/* ── Screenshot preview ── */}
+      <div style={{
+        position: 'relative', height: 200, overflow: 'hidden',
+        background: '#0a1628',
+        borderBottom: '1px solid var(--border)',
+      }}>
+        {/* Static Image */}
+        <Image
+          src={proj.image}
+          alt={`${proj.title} preview`}
+          fill
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'top',
+            transition: 'opacity 0.4s ease, transform 0.4s ease',
+            opacity: isHovered && proj.video ? 0 : 1
+          }}
+          className={`proj-img-${i}`}
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+
+        {/* Video on Hover */}
+        {proj.video && (
+          <video
+            ref={videoRef}
+            src={proj.video}
+            loop
+            muted
+            playsInline
+            style={{
+              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'top',
+              opacity: isHovered ? 1 : 0,
+              transition: 'opacity 0.4s ease',
+              pointerEvents: 'none'
+            }}
+          />
+        )}
+
+        {/* Gradient overlay at bottom */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
+          background: 'linear-gradient(to top, var(--bg-card), transparent)',
+          pointerEvents: 'none',
+        }} />
+        {/* Type badge */}
+        <span style={{
+          position: 'absolute', top: 10, right: 10,
+          background: 'rgba(13,27,42,0.85)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
+          fontSize: '0.6rem', fontWeight: 700,
+          padding: '3px 9px', borderRadius: 4,
+          backdropFilter: 'blur(8px)',
+          letterSpacing: '0.05em',
+        }}>{proj.type}</span>
+      </div>
+
+      {/* ── Body ── */}
+      <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+        {/* Title row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '1rem', marginBottom: 2 }}>
+              {proj.title}
+            </h3>
+            <p style={{ color: 'var(--teal)', fontSize: '0.71rem', fontWeight: 600 }}>{proj.subtitle}</p>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8, flexShrink: 0 }}>
+            <span style={{ color: '#4a6080', fontSize: '0.68rem' }}>{proj.date}</span>
+            <a href={proj.github} target="_blank" rel="noopener noreferrer"
+              style={{ color: '#4a6080', transition: 'color 0.2s' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#e2e8f0'}
+              onMouseLeave={e => e.currentTarget.style.color = '#4a6080'}
+            >
+              <FaGithub size={15} />
+            </a>
+          </div>
+        </div>
+
+        {/* Tech logo row */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
+          {proj.techLogos.map(tech => <TechChip key={tech} tech={tech} />)}
+        </div>
+
+        {/* Description */}
+        <p style={{ color: 'var(--muted)', fontSize: '0.81rem', lineHeight: 1.7, marginBottom: 12 }}>
+          {proj.description}
+        </p>
+
+        {/* Highlights */}
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: 1, marginBottom: 16 }}>
+          {proj.highlights.map((h, idx) => (
+            <li key={idx} style={{ display: 'flex', gap: 7, fontSize: '0.78rem', color: '#718096', lineHeight: 1.5 }}>
+              <span style={{ color: 'var(--teal)', flexShrink: 0, marginTop: 1 }}>›</span>
+              {h}
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <a href={proj.github} target="_blank" rel="noopener noreferrer"
+          className="btn-outline"
+          style={{ fontSize: '0.7rem', padding: '7px 16px', display: 'inline-flex', alignItems: 'center', gap: 7, width: 'fit-content' }}
+        >
+          <FaGithub size={12} /> View Code
+        </a>
+      </div>
+    </motion.div>
   );
 }
 
@@ -215,115 +371,7 @@ export default function Projects() {
             style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24 }}
           >
             {filtered.map((proj, i) => (
-              <motion.div
-                key={proj.title}
-                custom={i}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 12, overflow: 'hidden',
-                  display: 'flex', flexDirection: 'column',
-                  transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                {/* ── Screenshot preview ── */}
-                <div style={{
-                  position: 'relative', height: 200, overflow: 'hidden',
-                  background: '#0a1628',
-                  borderBottom: '1px solid var(--border)',
-                }}>
-                  <Image
-                    src={proj.image}
-                    alt={`${proj.title} preview`}
-                    fill
-                    style={{ objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.4s ease' }}
-                    className={`proj-img-${i}`}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                  {/* Gradient overlay at bottom */}
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
-                    background: 'linear-gradient(to top, var(--bg-card), transparent)',
-                    pointerEvents: 'none',
-                  }} />
-                  {/* Type badge */}
-                  <span style={{
-                    position: 'absolute', top: 10, right: 10,
-                    background: 'rgba(13,27,42,0.85)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
-                    fontSize: '0.6rem', fontWeight: 700,
-                    padding: '3px 9px', borderRadius: 4,
-                    backdropFilter: 'blur(8px)',
-                    letterSpacing: '0.05em',
-                  }}>{proj.type}</span>
-                </div>
-
-                {/* ── Body ── */}
-                <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-
-                  {/* Title row */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                    <div style={{ flex: 1 }}>
-                      <h3 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '1rem', marginBottom: 2 }}>
-                        {proj.title}
-                      </h3>
-                      <p style={{ color: 'var(--teal)', fontSize: '0.71rem', fontWeight: 600 }}>{proj.subtitle}</p>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8, flexShrink: 0 }}>
-                      <span style={{ color: '#4a6080', fontSize: '0.68rem' }}>{proj.date}</span>
-                      <a href={proj.github} target="_blank" rel="noopener noreferrer"
-                        style={{ color: '#4a6080', transition: 'color 0.2s' }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#e2e8f0'}
-                        onMouseLeave={e => e.currentTarget.style.color = '#4a6080'}
-                      >
-                        <FaGithub size={15} />
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Tech logo row */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 12 }}>
-                    {proj.techLogos.map(tech => <TechChip key={tech} tech={tech} />)}
-                  </div>
-
-                  {/* Description */}
-                  <p style={{ color: 'var(--muted)', fontSize: '0.81rem', lineHeight: 1.7, marginBottom: 12 }}>
-                    {proj.description}
-                  </p>
-
-                  {/* Highlights */}
-                  <ul style={{ display: 'flex', flexDirection: 'column', gap: 5, flex: 1, marginBottom: 16 }}>
-                    {proj.highlights.map((h, idx) => (
-                      <li key={idx} style={{ display: 'flex', gap: 7, fontSize: '0.78rem', color: '#718096', lineHeight: 1.5 }}>
-                        <span style={{ color: 'var(--teal)', flexShrink: 0, marginTop: 1 }}>›</span>
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <a href={proj.github} target="_blank" rel="noopener noreferrer"
-                    className="btn-outline"
-                    style={{ fontSize: '0.7rem', padding: '7px 16px', display: 'inline-flex', alignItems: 'center', gap: 7, width: 'fit-content' }}
-                  >
-                    <FaGithub size={12} /> View Code
-                  </a>
-                </div>
-              </motion.div>
+              <ProjectCard key={proj.title} proj={proj} i={i} />
             ))}
           </motion.div>
         </AnimatePresence>

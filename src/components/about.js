@@ -42,8 +42,8 @@ export default function About() {
             <div style={{ display: 'flex', gap: 12 }}>
               {[
                 { icon: <FaEnvelope size={15} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
-                { icon: <FaGithub size={15} />, href: 'https://github.com/yashsk', label: 'GitHub' },
-                { icon: <FaLinkedin size={15} />, href: 'https://linkedin.com/in/yash-kaushik', label: 'LinkedIn' },
+                { icon: <FaGithub size={15} />, href: 'https://github.com/Yashk-15', label: 'GitHub' },
+                { icon: <FaLinkedin size={15} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
               ].map(s => (
                 <motion.a
                   key={s.label}
@@ -95,8 +95,8 @@ export default function About() {
             {/* Stats row */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 8 }}>
               {[
-                { value: '2+', label: 'Projects Built' },
-                { value: '8.88', label: 'CGPA / 10' },
+                { value: '4+', label: 'Projects Built' },
+                { value: '8.98', label: 'CGPA / 10' },
                 { value: '5+', label: 'Certifications' },
               ].map(stat => (
                 <div key={stat.label} style={{
