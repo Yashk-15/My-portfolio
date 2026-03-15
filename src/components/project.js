@@ -87,7 +87,7 @@ const projects = [
     subtitle: 'Serverless Uptime Analytics',
     date: '2025',
     type: 'Self Project',
-    image: '/project-urlmonitor.png',
+    image: '/URL monitoring.png',
     video: '/URL monitoring video.mp4',
     description:
       'Built a serverless URL monitoring dashboard where AWS Lambda + EventBridge automatically checks URLs on a schedule, stores results in DynamoDB, and surfaces live uptime, response time, and incidents on a Next.js frontend',
@@ -106,7 +106,8 @@ const projects = [
     subtitle: 'Digital Wallet — Techforce Australia Internship',
     date: '2024',
     type: 'Internship Project',
-    image: '/project-techpay.png',
+    image: '/Techpay.jpeg',
+    video: '/techpay video.mp4',
     description:
       'Full-stack cross-platform digital payments app with NFC payments, QR scanning, P2P transfers, and bill-split across iOS and Android.',
     highlights: [
@@ -187,85 +188,173 @@ function ProjectCard({ proj, i }) {
       }}
     >
       {/* ── Screenshot preview ── */}
-      <div style={{
-        position: 'relative', height: 200, overflow: 'hidden',
-        background: '#0a1628',
-        borderBottom: '1px solid var(--border)',
-      }}>
-        {/* Static Image */}
-        <Image
-          src={proj.image}
-          alt={`${proj.title} preview`}
-          fill
-          style={{
-            objectFit: 'cover',
-            objectPosition: 'top',
-            transition: 'opacity 0.4s ease, transform 0.4s ease',
-            opacity: isHovered && proj.video ? 0 : 1
-          }}
-          className={`proj-img-${i}`}
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-
-        {/* Video on Hover */}
-        {proj.video && (
-          <video
-            ref={videoRef}
-            src={proj.video}
-            loop
-            muted
-            playsInline
-            style={{
-              position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'top',
-              opacity: isHovered ? 1 : 0,
-              transition: 'opacity 0.4s ease',
-              pointerEvents: 'none'
-            }}
-          />
-        )}
-
-        {/* Gradient overlay at bottom */}
+      {proj.category === 'app' ? (
+        /* Phone mockup for App projects */
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
-          background: 'linear-gradient(to top, var(--bg-card), transparent)',
-          pointerEvents: 'none',
-        }} />
-        {/* Type badge */}
-        <span style={{
-          position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8
+          background: 'linear-gradient(135deg, #0a1628 0%, #0d1f38 100%)',
+          borderBottom: '1px solid var(--border)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px 16px',
+          height: 260,
+          position: 'relative',
+          overflow: 'hidden',
         }}>
-          {proj.liveUrl && (
-            <div style={{
-              background: 'rgba(13,27,42,0.85)',
-              border: '1px solid rgba(0,217,181,0.2)',
-              color: 'var(--teal)',
-              fontSize: '0.6rem', fontWeight: 700,
-              padding: '4px 10px', borderRadius: 6,
-              backdropFilter: 'blur(8px)',
-              letterSpacing: '0.05em',
-              display: 'flex', alignItems: 'center', gap: 6,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
-            }}>
-              <span style={{
-                width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)',
-                boxShadow: '0 0 8px var(--teal)', animation: 'pulse-dot 2s infinite'
-              }} />
-              Live
-            </div>
-          )}
+          {/* Background glow */}
+          <div style={{
+            position: 'absolute', top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 180, height: 180,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(0,217,181,0.08), transparent 70%)',
+            pointerEvents: 'none',
+          }} />
 
+          {/* Phone frame */}
+          <div style={{
+            position: 'relative',
+            width: 120,
+            height: 220,
+            borderRadius: 20,
+            border: '3px solid rgba(255,255,255,0.15)',
+            background: '#000',
+            boxShadow: '0 0 0 1px rgba(0,217,181,0.1), 0 20px 40px rgba(0,0,0,0.6)',
+            overflow: 'hidden',
+            flexShrink: 0,
+          }}>
+            {/* Notch */}
+            <div style={{
+              position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
+              width: 40, height: 6, borderRadius: 3, background: '#111', zIndex: 3,
+            }} />
+            {/* Static image — fades out on hover if video exists */}
+            <Image
+              src={proj.image}
+              alt={`${proj.title} preview`}
+              fill
+              style={{
+                objectFit: 'cover', objectPosition: 'top',
+                transition: 'opacity 0.4s ease',
+                opacity: isHovered && proj.video ? 0 : 1,
+              }}
+              sizes="120px"
+            />
+            {/* Video — plays inside the phone on hover */}
+            {proj.video && (
+              <video
+                ref={videoRef}
+                src={proj.video}
+                loop
+                muted
+                playsInline
+                style={{
+                  position: 'absolute', top: 0, left: 0,
+                  width: '100%', height: '100%',
+                  objectFit: 'cover', objectPosition: 'top',
+                  opacity: isHovered ? 1 : 0,
+                  transition: 'opacity 0.4s ease',
+                  pointerEvents: 'none',
+                  zIndex: 1,
+                }}
+              />
+            )}
+          </div>
+
+          {/* Type badge */}
           <span style={{
+            position: 'absolute', top: 10, right: 10,
             background: 'rgba(13,27,42,0.85)',
             border: '1px solid rgba(255,255,255,0.1)',
-            color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
+            color: '#34d399',
             fontSize: '0.6rem', fontWeight: 700,
             padding: '3px 9px', borderRadius: 4,
             backdropFilter: 'blur(8px)',
             letterSpacing: '0.05em',
           }}>{proj.type}</span>
-        </span>
-      </div>
+        </div>
+      ) : (
+        /* Regular landscape thumbnail for Web/Cloud projects */
+        <div style={{
+          position: 'relative', height: 200, overflow: 'hidden',
+          background: '#0a1628',
+          borderBottom: '1px solid var(--border)',
+        }}>
+          {/* Static Image */}
+          <Image
+            src={proj.image}
+            alt={`${proj.title} preview`}
+            fill
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'top',
+              transition: 'opacity 0.4s ease, transform 0.4s ease',
+              opacity: isHovered && proj.video ? 0 : 1
+            }}
+            className={`proj-img-${i}`}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+
+          {/* Video on Hover */}
+          {proj.video && (
+            <video
+              ref={videoRef}
+              src={proj.video}
+              loop
+              muted
+              playsInline
+              style={{
+                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                objectFit: 'cover', objectPosition: 'top',
+                opacity: isHovered ? 1 : 0,
+                transition: 'opacity 0.4s ease',
+                pointerEvents: 'none'
+              }}
+            />
+          )}
+
+          {/* Gradient overlay at bottom */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
+            background: 'linear-gradient(to top, var(--bg-card), transparent)',
+            pointerEvents: 'none',
+          }} />
+          {/* Type badge */}
+          <span style={{
+            position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8
+          }}>
+            {proj.liveUrl && (
+              <div style={{
+                background: 'rgba(13,27,42,0.85)',
+                border: '1px solid rgba(0,217,181,0.2)',
+                color: 'var(--teal)',
+                fontSize: '0.6rem', fontWeight: 700,
+                padding: '4px 10px', borderRadius: 6,
+                backdropFilter: 'blur(8px)',
+                letterSpacing: '0.05em',
+                display: 'flex', alignItems: 'center', gap: 6,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+              }}>
+                <span style={{
+                  width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)',
+                  boxShadow: '0 0 8px var(--teal)', animation: 'pulse-dot 2s infinite'
+                }} />
+                Live
+              </div>
+            )}
+
+            <span style={{
+              background: 'rgba(13,27,42,0.85)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: proj.type === 'Internship Project' ? '#34d399' : '#94a3b8',
+              fontSize: '0.6rem', fontWeight: 700,
+              padding: '3px 9px', borderRadius: 4,
+              backdropFilter: 'blur(8px)',
+              letterSpacing: '0.05em',
+            }}>{proj.type}</span>
+          </span>
+        </div>
+      )}
 
       {/* ── Body ── */}
       <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
