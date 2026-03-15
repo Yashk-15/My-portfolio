@@ -68,8 +68,8 @@ const projects = [
     subtitle: 'Space-Themed Weather App',
     date: 'June 2025',
     type: 'Self Project',
-    image: '/project-weather.png',
-    video: '/cosmic video.mp4', // Optional video file
+    image: '/weather.png',
+    video: '/weather.mp4', // Optional video file
     description:
       'Built a weather app in React where the entire background visually reacts to live weather conditions — cloudy, rainy, or clear sky each trigger a different full-screen background, making the UI feel alive rather than just displaying data',
     highlights: [
