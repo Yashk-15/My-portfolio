@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import {
   FaGithub, FaAws, FaMobileAlt, FaReact, FaPython, FaDatabase,
@@ -152,7 +152,28 @@ function TechChip({ tech }) {
 // ── Project Card Component ─────────────────────────────────
 function ProjectCard({ proj, i }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile(); // Check on mount
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (isMobile || isHovered) {
+      videoRef.current.play().catch(e => console.log('Autoplay prevented', e));
+    } else {
+      videoRef.current.pause();
+      // Only reset if desktop logic dictates a reset
+      videoRef.current.currentTime = 0;
+    }
+  }, [isMobile, isHovered]);
+
+  const isVideoPlaying = isHovered || isMobile;
 
   return (
     <motion.div
@@ -169,19 +190,12 @@ function ProjectCard({ proj, i }) {
       }}
       onMouseEnter={e => {
         setIsHovered(true);
-        if (videoRef.current) {
-          videoRef.current.currentTime = 0;
-          videoRef.current.play().catch(err => console.log('Video autoplay prevented', err));
-        }
         e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
         e.currentTarget.style.transform = 'translateY(-5px)';
         e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
       }}
       onMouseLeave={e => {
         setIsHovered(false);
-        if (videoRef.current) {
-          videoRef.current.pause();
-        }
         e.currentTarget.style.borderColor = 'var(--border)';
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = 'none';
@@ -236,7 +250,7 @@ function ProjectCard({ proj, i }) {
               style={{
                 objectFit: 'cover', objectPosition: 'top',
                 transition: 'opacity 0.4s ease',
-                opacity: isHovered && proj.video ? 0 : 1,
+                opacity: isVideoPlaying && proj.video ? 0 : 1,
               }}
               sizes="120px"
             />
@@ -252,7 +266,7 @@ function ProjectCard({ proj, i }) {
                   position: 'absolute', top: 0, left: 0,
                   width: '100%', height: '100%',
                   objectFit: 'cover', objectPosition: 'top',
-                  opacity: isHovered ? 1 : 0,
+                  opacity: isVideoPlaying ? 1 : 0,
                   transition: 'opacity 0.4s ease',
                   pointerEvents: 'none',
                   zIndex: 1,
@@ -289,7 +303,7 @@ function ProjectCard({ proj, i }) {
               objectFit: 'cover',
               objectPosition: 'top',
               transition: 'opacity 0.4s ease, transform 0.4s ease',
-              opacity: isHovered && proj.video ? 0 : 1
+              opacity: isVideoPlaying && proj.video ? 0 : 1
             }}
             className={`proj-img-${i}`}
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -306,7 +320,7 @@ function ProjectCard({ proj, i }) {
               style={{
                 position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                 objectFit: 'cover', objectPosition: 'top',
-                opacity: isHovered ? 1 : 0,
+                opacity: isVideoPlaying ? 1 : 0,
                 transition: 'opacity 0.4s ease',
                 pointerEvents: 'none'
               }}

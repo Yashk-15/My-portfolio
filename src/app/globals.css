@@ -169,7 +169,20 @@ body {
 }
 
 @media (max-width: 768px) {
-  .container-main { padding: 0 20px; }
+  /* Smaller margins to use max real estate on phones */
+  .container-main { padding: 0 16px; }
+  
+  /* Scale down huge section spacing default */
+  section { padding: 60px 0 !important; }
+
+  /* Responsive typography scaling */
+  h2 { font-size: 1.5rem !important; }
+
+  /* Full width buttons */
+  .btn-outline, .btn-solid {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 /* horizontal divider */

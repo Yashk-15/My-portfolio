@@ -15,6 +15,7 @@ export default function Hero() {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
+            className="hero-text"
           >
             {/* Role label */}
             <div className="section-label" style={{ marginBottom: 24 }}>
@@ -45,7 +46,7 @@ export default function Hero() {
             </p>
 
             {/* Buttons */}
-            <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
+            <div className="hero-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
               <motion.a
                 href="#projects"
                 className="btn-outline"
@@ -65,7 +66,7 @@ export default function Hero() {
             </div>
 
             {/* Social icons */}
-            <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            <div className="hero-socials" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
               {[
                 { icon: <FaEnvelope size={16} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
                 { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
@@ -132,7 +133,24 @@ export default function Hero() {
 
       <style>{`
         @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .hero-grid { 
+            grid-template-columns: 1fr !important; 
+            gap: 40px !important; 
+            padding-top: 40px;
+          }
+          .hero-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
+          .hero-buttons {
+            justify-content: center;
+            width: 100%;
+          }
+          .hero-socials {
+            justify-content: center;
+          }
         }
       `}</style>
     </section>
