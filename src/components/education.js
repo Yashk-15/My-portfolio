@@ -55,7 +55,7 @@ export default function Education() {
             style={{ display: 'flex', flexDirection: 'column', gap: 0, border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}
           >
             {education.map((edu, idx) => (
-              <motion.div key={edu.institution} variants={item} style={{
+              <motion.div key={edu.institution} variants={item} className="edu-item" style={{
                 display: 'flex', alignItems: 'center', gap: 16,
                 padding: '14px 20px',
                 background: 'var(--bg-card)',
@@ -75,7 +75,7 @@ export default function Education() {
                   padding: '2px 10px', borderRadius: 4, whiteSpace: 'nowrap', flexShrink: 0,
                 }}>{edu.highlight}</span>
                 {/* Period + location */}
-                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                <div className="edu-meta" style={{ textAlign: 'right', flexShrink: 0 }}>
                   <p style={{ color: '#718096', fontSize: '0.75rem', fontWeight: 600 }}>{edu.period}</p>
                   <p style={{ color: '#4a6080', fontSize: '0.68rem', marginTop: 2 }}>{edu.location}</p>
                 </div>
@@ -123,6 +123,13 @@ export default function Education() {
           </motion.div>
         </div>
       </section>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .edu-item { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+          .edu-meta { text-align: left !important; }
+        }
+      `}</style>
     </>
   );
 }

@@ -495,6 +495,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
+            className="projects-grid"
             style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 24 }}
           >
             {filtered.map((proj, i) => (
@@ -505,8 +506,11 @@ export default function Projects() {
 
       </div>
 
-      {/* Global styles for pulse animation */}
+      {/* Global styles for pulse animation & mobile */}
       <style>{`
+        @media (max-width: 768px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
+        }
         @keyframes pulse-dot {
           0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 217, 181, 0.7); opacity: 1; }
           70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 217, 181, 0); opacity: 0.8; }

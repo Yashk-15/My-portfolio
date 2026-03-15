@@ -93,7 +93,7 @@ export default function About() {
             </p>
 
             {/* Stats row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 8 }}>
+            <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginTop: 8 }}>
               {[
                 { value: '4+', label: 'Projects Built' },
                 { value: '8.98', label: 'CGPA / 10' },
@@ -119,6 +119,7 @@ export default function About() {
       <style>{`
         @media (max-width: 768px) {
           .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .stats-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
