@@ -17,10 +17,10 @@ export default function Contact() {
         >
           <div className="section-label">Contato</div>
           <h2 style={{ color: '#e2e8f0', fontSize: '1.8rem', fontWeight: 700, letterSpacing: '-0.02em' }}>
-            Let's Connect
+            Let&apos;s Connect
           </h2>
           <p style={{ color: 'var(--muted)', fontSize: '0.9rem', marginTop: 10, maxWidth: 500, lineHeight: 1.7 }}>
-            I'm always open to interesting conversations, projects, and opportunities. Feel free to reach out — I'll be happy to connect!
+            I&apos;m always open to interesting conversations, projects, and opportunities. Feel free to reach out — I&apos;ll be happy to connect!
           </p>
         </motion.div>
 

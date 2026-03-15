@@ -80,7 +80,7 @@ export default function About() {
               Know a little about me
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.85, marginBottom: 16 }}>
-              I'm a <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Frontend & Cloud Developer</span> and{' '}
+              I&apos;m a <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Frontend & Cloud Developer</span> and{' '}
               <span style={{ color: 'var(--teal)', fontWeight: 600 }}>AWS Certified Cloud Practitioner</span> pursuing my B.Tech in
               Computer Science (Software Engineering) at SRM Institute of Science and Technology, Chennai
             </p>
@@ -89,7 +89,7 @@ export default function About() {
               <span style={{ color: '#e2e8f0', fontWeight: 500 }}> React & Next.js</span> on the frontend,{' '}
               <span style={{ color: '#e2e8f0', fontWeight: 500 }}>Flutter</span> for mobile, and{' '}
               <span style={{ color: '#e2e8f0', fontWeight: 500 }}>AWS serverless infrastructure</span> — including Lambda, DynamoDB, Cognito, and EventBridge.{' '}
-              I'm always exploring new tools and patterns to push the quality of my work.
+              I&apos;m always exploring new tools and patterns to push the quality of my work.
             </p>
 
             {/* Stats row */}
