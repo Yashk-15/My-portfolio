@@ -123,6 +123,9 @@ export default function Contact() {
         @media (max-width: 768px) {
           .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
         }
+        @media (max-width: 480px) {
+          .contact-grid { gap: 24px !important; }
+        }
       `}</style>
     </section>
   );

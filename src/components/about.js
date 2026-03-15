@@ -119,6 +119,9 @@ export default function About() {
       <style>{`
         @media (max-width: 768px) {
           .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }
+        }
+        @media (max-width: 480px) {
           .stats-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>

@@ -200,6 +200,16 @@ function ProjectCard({ proj, i }) {
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = 'none';
       }}
+      onTouchStart={e => {
+        e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
+        e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.4)';
+      }}
+      onTouchEnd={e => {
+        setTimeout(() => {
+          e.currentTarget.style.borderColor = 'var(--border)';
+          e.currentTarget.style.boxShadow = 'none';
+        }, 300);
+      }}
     >
       {/* ── Screenshot preview ── */}
       {proj.category === 'app' ? (
