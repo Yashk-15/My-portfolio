@@ -97,16 +97,23 @@ export default function Navbar() {
             <div className="container-main" style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {navItems.map(item => (
                 <a key={item.name} href={item.href}
-                  onClick={() => setMenuOpen(false)}
+                  onClick={(e) => {
+                    // Close menu after a short delay so browser can follow the anchor first
+                    setTimeout(() => setMenuOpen(false), 100);
+                  }}
                   style={{
                     color: '#94a3b8', textDecoration: 'none',
                     fontSize: '1rem', fontWeight: 500,
-                    padding: '12px 8px',
+                    padding: '14px 12px',
                     borderRadius: 8,
                     display: 'block',
                     borderBottom: '1px solid rgba(255,255,255,0.04)',
                     transition: 'color 0.2s, background 0.2s',
+                    WebkitTapHighlightColor: 'transparent',
+                    cursor: 'pointer',
                   }}
+                  onTouchStart={e => { e.currentTarget.style.color = 'var(--teal)'; e.currentTarget.style.background = 'rgba(0,217,181,0.06)'; }}
+                  onTouchEnd={e => { setTimeout(() => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'transparent'; }, 300); }}
                   onMouseEnter={e => { e.currentTarget.style.color = 'var(--teal)'; e.currentTarget.style.background = 'rgba(0,217,181,0.06)'; }}
                   onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'transparent'; }}
                 >
