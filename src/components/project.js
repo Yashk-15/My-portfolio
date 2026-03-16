@@ -85,17 +85,16 @@ const projects = [
     category: 'aws',
     title: 'URL Monitoring Dashboard',
     subtitle: 'Serverless Uptime Analytics',
-    date: '2025',
+    date: '2026',
     type: 'Self Project',
     image: '/URL monitoring.png',
     video: '/URL monitoring video.mp4',
     description:
-      'Built a serverless URL monitoring dashboard where AWS Lambda + EventBridge automatically checks URLs on a schedule, stores results in DynamoDB, and surfaces live uptime, response time, and incidents on a Next.js frontend',
+      'Built a fully serverless SaaS on AWS (EventBridge + Lambda) that health-checks user-registered URLs on a configurable schedule – eliminating persistent server costs and storing status, latency, and HTTP codes in DynamoDB.',
     highlights: [
-      'Integrated AWS Cognito for full auth flow — signup, email verification, JWT-based API calls, and auto-redirect on token expiry',
-      'Built a drag-and-drop table with dnd-kit + TanStack Table with inline per-URL performance charts that only fetch data when a row is expanded',
-      'Wrote a time-bucketing algorithm for the response time chart that uses 2-hour slots instead of daily buckets, so recent data stays readable on the 7-day view',
-      'Derived an incident timeline directly from DynamoDB logs by filtering failed checks and grouping them by date — no separate incidents table needed'
+      'Reduced unauthorised data access to zero by implementing AWS Cognito auth (sign-up, email OTP, JWT-protected routes) with per-request token validation enforcing strict per-user data isolation.',
+      'Boosted observability with a real-time dashboard auto-refreshing every 30s – featuring bucketed response-time charts (7/30/90d), drag-and-drop URL management (dnd-kit + TanStack Table), and live stat cards.',
+      'Surfaced actionable alerts via an Incidents timeline that classifies Critical/Warning events from DynamoDB logs using HTTP status + latency thresholds, grouped by recency with severity filters.'
     ],
     techLogos: ['Next.js', 'AWS Cognito', 'Lambda', 'DynamoDB', 'API Gateway', 'Tailwind CSS'],
     github: 'https://github.com/Yashk-15',
@@ -104,7 +103,7 @@ const projects = [
     category: 'app',
     title: 'TechPay',
     subtitle: 'Digital Wallet — Techforce Australia Internship',
-    date: '2024',
+    date: '2026',
     type: 'Internship Project',
     image: '/Techpay.jpeg',
     video: '/techpay video.mp4',
