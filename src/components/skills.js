@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaGithub, FaPython, FaAws, FaDatabase } from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiMysql, SiVercel, SiJupyter } from 'react-icons/si';
+import { SiNextdotjs, SiTailwindcss, SiMysql, SiVercel, SiJupyter, SiFlutter } from 'react-icons/si';
 import { TbBrandCpp } from 'react-icons/tb';
 import { VscCode } from 'react-icons/vsc';
 import { SiGooglecolab } from 'react-icons/si';
@@ -14,6 +14,7 @@ const skills = [
   { name: 'React.js', icon: <FaReact size={32} />, color: '#61DAFB' },
   { name: 'Next.js', icon: <SiNextdotjs size={32} />, color: '#fff' },
   { name: 'Tailwind CSS', icon: <SiTailwindcss size={32} />, color: '#38BDF8' },
+  { name: 'Flutter', icon: <SiFlutter size={32} />, color: '#02569B' },
   { name: 'Python', icon: <FaPython size={32} />, color: '#3776AB' },
   { name: 'MySQL', icon: <SiMysql size={32} />, color: '#4479A1' },
   { name: 'AWS', icon: <FaAws size={32} />, color: '#FF9900' },
