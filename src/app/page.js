@@ -6,6 +6,7 @@ import Projects from '@/components/project'
 import Education from '@/components/education'
 import Contact from '@/components/contact'
 
+
 export default function Home() {
   return (
     <main>

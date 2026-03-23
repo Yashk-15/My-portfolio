@@ -1,4 +1,5 @@
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "Yash Kaushik | Full Stack Developer",
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <div style={{ position: 'relative', zIndex: 1 }}>
           {children}
         </div>
+        <SpeedInsights />
       </body>
     </html>
   );
