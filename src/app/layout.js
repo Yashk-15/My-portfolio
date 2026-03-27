@@ -1,5 +1,6 @@
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: "Yash Kaushik | Full Stack Developer",
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
           <div className="bg-glow-blue" />
           <div className="bg-grid" />
         </div>
-        
+
         {/* Main Content Wrapper */}
         <div style={{ position: 'relative', zIndex: 1 }}>
           {children}
