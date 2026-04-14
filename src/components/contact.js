@@ -108,7 +108,7 @@ export default function Contact() {
             fontSize: '0.78rem',
           }}
         >
-          © 2025 Yash Kaushik · Built with Next.js &amp; Deployed on AWS
+          © 2025 Yash Kaushik
         </motion.div>
       </div>
 
