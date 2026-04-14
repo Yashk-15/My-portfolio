@@ -69,7 +69,7 @@ const projects = [
     date: 'June 2025',
     type: 'Self Project',
     image: '/weather.png',
-    video: '/weather.mp4', // Optional video file
+    video: '/weather.mp4',
     description:
       'Built a weather app in React where the entire background visually reacts to live weather conditions — cloudy, rainy, or clear sky each trigger a different full-screen background, making the UI feel alive rather than just displaying data',
     highlights: [
@@ -94,7 +94,7 @@ const projects = [
     highlights: [
       'Reduced unauthorised data access to zero by implementing AWS Cognito auth (sign-up, email OTP, JWT-protected routes) with per-request token validation enforcing strict per-user data isolation.',
       'Boosted observability with a real-time dashboard auto-refreshing every 30s – featuring bucketed response-time charts (7/30/90d), drag-and-drop URL management (dnd-kit + TanStack Table), and live stat cards.',
-      'Surfaced actionable alerts via an Incidents timeline that classifies Critical/Warning events from DynamoDB logs using HTTP status + latency thresholds, grouped by recency with severity filters.'
+      'Surfaced actionable alerts via an Incidents timeline that classifies Critical/Warning events from DynamoDB logs using HTTP status + latency thresholds, grouped by recency with severity filters.',
     ],
     techLogos: ['Next.js', 'AWS Cognito', 'Lambda', 'DynamoDB', 'API Gateway', 'Tailwind CSS'],
     github: 'https://github.com/Yashk-15',
@@ -120,15 +120,6 @@ const projects = [
   },
 ];
 
-// ── Card variants ─────────────────────────────────────────
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (i) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.45, delay: i * 0.1, ease: 'easeOut' },
-  }),
-};
-
 // ── Tech logo chip ────────────────────────────────────────
 function TechChip({ tech }) {
   const def = ICONS[tech];
@@ -149,6 +140,8 @@ function TechChip({ tech }) {
 }
 
 // ── Project Card Component ─────────────────────────────────
+// Uses plain <div> with CSS transitions instead of motion.div to avoid
+// blocking the main thread on hover/interaction (fixes INP).
 function ProjectCard({ proj, i }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -156,18 +149,19 @@ function ProjectCard({ proj, i }) {
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile(); // Check on mount
+    checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Play/pause video on hover or mobile — video has preload="none" so no data
+  // is fetched until actually needed.
   useEffect(() => {
     if (!videoRef.current) return;
     if (isMobile || isHovered) {
-      videoRef.current.play().catch(e => console.log('Autoplay prevented', e));
+      videoRef.current.play().catch(() => {});
     } else {
       videoRef.current.pause();
-      // Only reset if desktop logic dictates a reset
       videoRef.current.currentTime = 0;
     }
   }, [isMobile, isHovered]);
@@ -175,39 +169,15 @@ function ProjectCard({ proj, i }) {
   const isVideoPlaying = isHovered || isMobile;
 
   return (
-    <motion.div
-      custom={i}
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-        borderRadius: 12, overflow: 'hidden',
-        display: 'flex', flexDirection: 'column',
-        transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease',
-      }}
-      onMouseEnter={e => {
-        setIsHovered(true);
-        e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
-        e.currentTarget.style.transform = 'translateY(-5px)';
-        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
-      }}
-      onMouseLeave={e => {
-        setIsHovered(false);
-        e.currentTarget.style.borderColor = 'var(--border)';
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
+    <div
+      className="project-card"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onTouchStart={e => {
-        e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)';
-        e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.4)';
+        e.currentTarget.classList.add('project-card--touch');
       }}
       onTouchEnd={e => {
-        setTimeout(() => {
-          e.currentTarget.style.borderColor = 'var(--border)';
-          e.currentTarget.style.boxShadow = 'none';
-        }, 300);
+        setTimeout(() => e.currentTarget.classList.remove('project-card--touch'), 300);
       }}
     >
       {/* ── Screenshot preview ── */}
@@ -251,11 +221,12 @@ function ProjectCard({ proj, i }) {
               position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
               width: 40, height: 6, borderRadius: 3, background: '#111', zIndex: 3,
             }} />
-            {/* Static image — fades out on hover if video exists */}
+            {/* Static image */}
             <Image
               src={proj.image}
               alt={`${proj.title} preview`}
               fill
+              loading="lazy"
               style={{
                 objectFit: 'cover', objectPosition: 'top',
                 transition: 'opacity 0.4s ease',
@@ -263,7 +234,7 @@ function ProjectCard({ proj, i }) {
               }}
               sizes="120px"
             />
-            {/* Video — plays inside the phone on hover */}
+            {/* Video — preload=none so no bytes fetched until hover */}
             {proj.video && (
               <video
                 ref={videoRef}
@@ -271,6 +242,7 @@ function ProjectCard({ proj, i }) {
                 loop
                 muted
                 playsInline
+                preload="none"
                 style={{
                   position: 'absolute', top: 0, left: 0,
                   width: '100%', height: '100%',
@@ -308,17 +280,17 @@ function ProjectCard({ proj, i }) {
             src={proj.image}
             alt={`${proj.title} preview`}
             fill
+            loading="lazy"
             style={{
               objectFit: 'cover',
               objectPosition: 'top',
               transition: 'opacity 0.4s ease, transform 0.4s ease',
-              opacity: isVideoPlaying && proj.video ? 0 : 1
+              opacity: isVideoPlaying && proj.video ? 0 : 1,
             }}
-            className={`proj-img-${i}`}
             sizes="(max-width: 768px) 100vw, 50vw"
           />
 
-          {/* Video on Hover */}
+          {/* Video on Hover — preload=none prevents eager loading of large mp4 files */}
           {proj.video && (
             <video
               ref={videoRef}
@@ -326,12 +298,13 @@ function ProjectCard({ proj, i }) {
               loop
               muted
               playsInline
+              preload="none"
               style={{
                 position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                 objectFit: 'cover', objectPosition: 'top',
                 opacity: isVideoPlaying ? 1 : 0,
                 transition: 'opacity 0.4s ease',
-                pointerEvents: 'none'
+                pointerEvents: 'none',
               }}
             />
           )}
@@ -344,7 +317,7 @@ function ProjectCard({ proj, i }) {
           }} />
           {/* Type badge */}
           <span style={{
-            position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8
+            position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
           }}>
             {proj.liveUrl && (
               <div style={{
@@ -356,11 +329,11 @@ function ProjectCard({ proj, i }) {
                 backdropFilter: 'blur(8px)',
                 letterSpacing: '0.05em',
                 display: 'flex', alignItems: 'center', gap: 6,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+                boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
               }}>
                 <span style={{
                   width: 6, height: 6, borderRadius: '50%', background: 'var(--teal)',
-                  boxShadow: '0 0 8px var(--teal)', animation: 'pulse-dot 2s infinite'
+                  boxShadow: '0 0 8px var(--teal)', animation: 'pulse-dot 2s infinite',
                 }} />
                 Live
               </div>
@@ -393,9 +366,7 @@ function ProjectCard({ proj, i }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8, flexShrink: 0 }}>
             <span style={{ color: '#4a6080', fontSize: '0.68rem' }}>{proj.date}</span>
             <a href={proj.github} target="_blank" rel="noopener noreferrer"
-              style={{ color: '#4a6080', transition: 'color 0.2s' }}
-              onMouseEnter={e => e.currentTarget.style.color = '#e2e8f0'}
-              onMouseLeave={e => e.currentTarget.style.color = '#4a6080'}
+              className="proj-github-link"
             >
               <FaGithub size={15} />
             </a>
@@ -425,19 +396,7 @@ function ProjectCard({ proj, i }) {
         {/* CTA */}
         {proj.liveUrl && (
           <a href={proj.liveUrl} target="_blank" rel="noopener noreferrer"
-            style={{
-              fontSize: '0.75rem', padding: '7px 18px', display: 'inline-flex', alignItems: 'center', gap: 7, width: 'fit-content',
-              background: 'rgba(0,217,181,0.1)', color: 'var(--teal)', border: '1px solid rgba(0,217,181,0.2)',
-              borderRadius: 6, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s'
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(0,217,181,0.2)';
-              e.currentTarget.style.borderColor = 'rgba(0,217,181,0.4)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(0,217,181,0.1)';
-              e.currentTarget.style.borderColor = 'rgba(0,217,181,0.2)';
-            }}
+            className="proj-live-btn"
           >
             <span style={{
               width: 7, height: 7, borderRadius: '50%', background: 'var(--teal)',
@@ -447,7 +406,7 @@ function ProjectCard({ proj, i }) {
           </a>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -475,42 +434,22 @@ export default function Projects() {
         </motion.div>
 
         {/* Category tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          viewport={{ once: true }}
-          style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 40 }}
-        >
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 40 }}>
           {categories.map(cat => {
             const isActive = activeCategory === cat.id;
             const count = projects.filter(p => p.category === cat.id).length;
             return (
               <button key={cat.id} onClick={() => setActiveCategory(cat.id)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 7,
-                  padding: '8px 18px', borderRadius: 6, cursor: 'pointer',
-                  border: isActive ? '1.5px solid var(--teal)' : '1.5px solid rgba(255,255,255,0.08)',
-                  background: isActive ? 'rgba(0,217,181,0.1)' : 'var(--bg-card)',
-                  color: isActive ? 'var(--teal)' : '#718096',
-                  fontSize: '0.8rem', fontWeight: 600,
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={e => { if (!isActive) { e.currentTarget.style.borderColor = 'rgba(0,217,181,0.3)'; e.currentTarget.style.color = '#a0aec0'; } }}
-                onMouseLeave={e => { if (!isActive) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#718096'; } }}
+                className={`cat-tab${isActive ? ' cat-tab--active' : ''}`}
               >
                 {cat.icon} {cat.label}
-                <span style={{
-                  background: isActive ? 'rgba(0,217,181,0.2)' : 'rgba(255,255,255,0.06)',
-                  color: isActive ? 'var(--teal)' : '#4a6080',
-                  fontSize: '0.65rem', fontWeight: 700, padding: '1px 7px', borderRadius: 999,
-                }}>{count}</span>
+                <span className={`cat-count${isActive ? ' cat-count--active' : ''}`}>{count}</span>
               </button>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* Cards */}
+        {/* Cards — AnimatePresence only for tab switch, not per-card */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -529,8 +468,70 @@ export default function Projects() {
 
       </div>
 
-      {/* Global styles for pulse animation & mobile */}
       <style>{`
+        .project-card {
+          background: var(--bg-card);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .project-card:hover {
+          border-color: rgba(0,217,181,0.3);
+          transform: translateY(-5px);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .project-card--touch {
+          border-color: rgba(0,217,181,0.3);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+        .proj-github-link {
+          color: #4a6080;
+          transition: color 0.2s ease;
+        }
+        .proj-github-link:hover { color: #e2e8f0; }
+        .proj-live-btn {
+          font-size: 0.75rem; padding: 7px 18px;
+          display: inline-flex; align-items: center; gap: 7px; width: fit-content;
+          background: rgba(0,217,181,0.1); color: var(--teal);
+          border: 1px solid rgba(0,217,181,0.2);
+          border-radius: 6px; font-weight: 700; text-decoration: none;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .proj-live-btn:hover {
+          background: rgba(0,217,181,0.2);
+          border-color: rgba(0,217,181,0.4);
+        }
+        .cat-tab {
+          display: flex; align-items: center; gap: 7px;
+          padding: 8px 18px; border-radius: 6px; cursor: pointer;
+          border: 1.5px solid rgba(255,255,255,0.08);
+          background: var(--bg-card);
+          color: #718096;
+          font-size: 0.8rem; font-weight: 600;
+          transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+        }
+        .cat-tab:hover {
+          border-color: rgba(0,217,181,0.3);
+          color: #a0aec0;
+        }
+        .cat-tab--active {
+          border-color: var(--teal) !important;
+          background: rgba(0,217,181,0.1) !important;
+          color: var(--teal) !important;
+        }
+        .cat-count {
+          background: rgba(255,255,255,0.06);
+          color: #4a6080;
+          font-size: 0.65rem; font-weight: 700;
+          padding: 1px 7px; border-radius: 999px;
+        }
+        .cat-count--active {
+          background: rgba(0,217,181,0.2);
+          color: var(--teal);
+        }
         @media (max-width: 768px) {
           .projects-grid { grid-template-columns: 1fr !important; }
         }

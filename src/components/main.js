@@ -45,54 +45,33 @@ export default function Hero() {
               Building fast, scalable, web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value, improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
             </p>
 
-            {/* Buttons */}
+            {/* Buttons — plain <a> tags with CSS transitions (no JS on hover/tap) */}
             <div className="hero-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
-              <motion.a
-                href="#projects"
-                className="btn-outline"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-              >
+              <a href="#projects" className="btn-outline">
                 View Projects
-              </motion.a>
-              <motion.a
-                href="#contact"
-                className="btn-solid"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-              >
+              </a>
+              <a href="#contact" className="btn-solid">
                 Contact Me
-              </motion.a>
+              </a>
             </div>
 
-            {/* Social icons */}
+            {/* Social icons — CSS-only hover transitions */}
             <div className="hero-socials" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
               {[
                 { icon: <FaEnvelope size={16} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
                 { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
                 { icon: <FaLinkedin size={16} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
               ].map(s => (
-                <motion.a
+                <a
                   key={s.label}
                   href={s.href}
                   target={s.href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  whileHover={{ scale: 1.15, color: 'var(--teal)' }}
-                  style={{
-                    width: 38, height: 38,
-                    borderRadius: '50%',
-                    border: '1.5px solid rgba(255,255,255,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#94a3b8',
-                    textDecoration: 'none',
-                    transition: 'border-color 0.2s, color 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--teal)'; e.currentTarget.style.color = 'var(--teal)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#94a3b8'; }}
+                  className="social-icon-btn"
                 >
                   {s.icon}
-                </motion.a>
+                </a>
               ))}
             </div>
           </motion.div>
@@ -115,6 +94,7 @@ export default function Hero() {
                 height={400}
                 style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
                 priority
+                fetchPriority="high"
               />
             </motion.div>
           </motion.div>
@@ -132,6 +112,20 @@ export default function Hero() {
       </div>
 
       <style>{`
+        .social-icon-btn {
+          width: 38px; height: 38px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255,255,255,0.12);
+          display: flex; align-items: center; justify-content: center;
+          color: #94a3b8;
+          text-decoration: none;
+          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .social-icon-btn:hover {
+          border-color: var(--teal);
+          color: var(--teal);
+          transform: scale(1.15);
+        }
         @media (max-width: 768px) {
           .hero-grid { 
             grid-template-columns: 1fr !important; 

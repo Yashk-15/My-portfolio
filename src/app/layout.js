@@ -1,6 +1,14 @@
 import "./globals.css";
+import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  preload: true,
+});
 
 export const metadata = {
   title: "Yash Kaushik | Full Stack Developer",
@@ -10,14 +18,14 @@ export const metadata = {
 };
 
 export const viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body>
         <div className="bg-anim-wrapper">
           <div className="bg-glow-teal" />
@@ -26,9 +34,7 @@ export default function RootLayout({ children }) {
         </div>
 
         {/* Main Content Wrapper */}
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          {children}
-        </div>
+        <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
         <SpeedInsights />
         <Analytics />
       </body>
