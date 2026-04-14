@@ -1,10 +1,14 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa';
 
 export default function Hero() {
+  // Disable infinite animations on devices that prefer reduced motion
+  // (also catches most low-power mobile browsers)
+  const prefersReduced = useReducedMotion();
+
   return (
     <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', position: 'relative', paddingTop: '80px' }}>
       <div className="container-main" style={{ width: '100%' }}>
@@ -22,7 +26,7 @@ export default function Hero() {
               Frontend Developer | React · Next.js · Flutter · AWS
             </div>
 
-            {/* Name */}
+            {/* Name — this becomes the LCP element on mobile */}
             <h1 style={{
               fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
               fontWeight: 800,
@@ -45,18 +49,18 @@ export default function Hero() {
               Building fast, scalable, web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value, improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
             </p>
 
-            {/* Buttons — plain <a> tags with CSS transitions (no JS on hover/tap) */}
+            {/* Buttons — min 44px touch target height */}
             <div className="hero-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
-              <a href="#projects" className="btn-outline">
+              <a href="#projects" className="btn-outline hero-btn">
                 View Projects
               </a>
-              <a href="#contact" className="btn-solid">
+              <a href="#contact" className="btn-solid hero-btn">
                 Contact Me
               </a>
             </div>
 
-            {/* Social icons — CSS-only hover transitions */}
-            <div className="hero-socials" style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            {/* Social icons — 44px touch targets */}
+            <div className="hero-socials" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
               {[
                 { icon: <FaEnvelope size={16} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
                 { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
@@ -76,15 +80,16 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right — Illustration */}
+          {/* Right — Illustration (hidden on mobile to eliminate it as LCP element) */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            className="hero-illustration-wrapper"
           >
             <motion.div
-              animate={{ y: [0, -16, 0] }}
+              animate={prefersReduced ? {} : { y: [0, -16, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
               <Image
@@ -95,15 +100,17 @@ export default function Hero() {
                 style={{ maxWidth: '100%', height: 'auto', objectFit: 'contain' }}
                 priority
                 fetchPriority="high"
+                sizes="(max-width: 768px) 0px, (max-width: 1100px) 45vw, 480px"
               />
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator — disabled on mobile (saves infinite animation cost) */}
         <motion.div
+          className="scroll-indicator"
           style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, color: '#4a6080' }}
-          animate={{ y: [0, 7, 0] }}
+          animate={prefersReduced ? {} : { y: [0, 7, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <span style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>scroll</span>
@@ -112,24 +119,13 @@ export default function Hero() {
       </div>
 
       <style>{`
-        .social-icon-btn {
-          width: 38px; height: 38px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(255,255,255,0.12);
-          display: flex; align-items: center; justify-content: center;
-          color: #94a3b8;
-          text-decoration: none;
-          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-        }
-        .social-icon-btn:hover {
-          border-color: var(--teal);
-          color: var(--teal);
-          transform: scale(1.15);
-        }
+        /* Hero illustration hidden on mobile — LCP shifts to H1 text (fast) */
         @media (max-width: 768px) {
-          .hero-grid { 
-            grid-template-columns: 1fr !important; 
-            gap: 40px !important; 
+          .hero-illustration-wrapper { display: none !important; }
+          .scroll-indicator { display: none !important; }
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
             padding-top: 40px;
           }
           .hero-text {
@@ -145,6 +141,28 @@ export default function Hero() {
           .hero-socials {
             justify-content: center;
           }
+        }
+        /* Ensure buttons have 44px min touch target on mobile */
+        .hero-btn {
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .social-icon-btn {
+          width: 44px; height: 44px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255,255,255,0.12);
+          display: flex; align-items: center; justify-content: center;
+          color: #94a3b8;
+          text-decoration: none;
+          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .social-icon-btn:hover {
+          border-color: var(--teal);
+          color: var(--teal);
+          transform: scale(1.1);
         }
       `}</style>
     </section>

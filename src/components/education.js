@@ -97,14 +97,11 @@ export default function Education() {
             style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}
           >
             {certifications.map(cert => (
-              <motion.div key={cert.title} variants={item} style={{
+              <div key={cert.title} className="cert-card" style={{
                 background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8,
                 padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 8,
-                transition: 'border-color 0.2s ease, transform 0.2s ease',
                 borderLeft: `3px solid ${cert.color}`,
               }}
-                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <h3 style={{ color: '#e2e8f0', fontWeight: 600, fontSize: '0.85rem', lineHeight: 1.4, flex: 1 }}>{cert.title}</h3>
@@ -118,16 +115,21 @@ export default function Education() {
                 </div>
                 <p style={{ color: 'var(--muted)', fontSize: '0.75rem' }}>{cert.issuer}</p>
                 <p style={{ color: '#4a6080', fontSize: '0.72rem', fontWeight: 600 }}>{cert.date}</p>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
         </div>
       </section>
 
       <style>{`
+        .cert-card {
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .cert-card:hover { transform: translateY(-2px); }
         @media (max-width: 768px) {
           .edu-item { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
           .edu-meta { text-align: left !important; }
+          .cert-card:hover { transform: none; }
         }
       `}</style>
     </>

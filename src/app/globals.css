@@ -178,18 +178,42 @@ body {
 @media (max-width: 768px) {
   /* Smaller margins to use max real estate on phones */
   .container-main { padding: 0 16px; }
-  
+
   /* Scale down huge section spacing default */
   section { padding: 60px 0 !important; }
 
   /* Responsive typography scaling */
   h2 { font-size: 1.5rem !important; }
 
-  /* Full width buttons */
+  /* Full width buttons + 44px min touch target */
   .btn-outline, .btn-solid {
     width: 100%;
     text-align: center;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
+
+  /* Disable expensive background orb animations on mobile GPUs */
+  .bg-glow-teal, .bg-glow-blue { animation: none !important; }
+
+  /* Shrink orbs on mobile — 50vw blurred circles on a phone screen are very expensive */
+  .bg-glow-teal { width: 80vw; height: 80vw; opacity: 0.5; }
+  .bg-glow-blue { width: 90vw; height: 90vw; opacity: 0.4; }
+
+  /* Hide grid overlay on mobile (saves GPU compositing layer) */
+  .bg-grid { display: none; }
+
+  /* 44px min touch target for nav links */
+  .nav-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .nav-mobile-link { min-height: 44px !important; }
+
+  /* 44px touch target for social icons */
+  .social-icon-btn { width: 44px !important; height: 44px !important; }
+
+  /* Cert cards — no hover transform on touch devices */
+  .cert-card:hover { transform: none !important; }
 }
 
 /* horizontal divider */
@@ -239,5 +263,8 @@ body {
   font-size: 0.875rem;
   text-decoration: none;
   transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 .contact-link:hover { color: var(--teal); }
