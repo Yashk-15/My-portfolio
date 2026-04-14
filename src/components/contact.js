@@ -52,9 +52,7 @@ export default function Contact() {
                 </div>
                 {c.href ? (
                   <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                    style={{ color: '#94a3b8', fontSize: '0.875rem', textDecoration: 'none', transition: 'color 0.2s' }}
-                    onMouseEnter={e => e.target.style.color = c.color}
-                    onMouseLeave={e => e.target.style.color = '#94a3b8'}
+                    className="contact-link"
                   >{c.label}</a>
                 ) : (
                   <span style={{ color: '#94a3b8', fontSize: '0.875rem' }}>{c.label}</span>
@@ -89,14 +87,9 @@ export default function Contact() {
             <p style={{ color: 'var(--muted)', fontSize: '0.85rem', lineHeight: 1.75, marginBottom: 28 }}>
               Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.
             </p>
-            <motion.a
-              href="mailto:yashsk1505@gmail.com"
-              className="btn-outline"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            <a href="mailto:yashsk1505@gmail.com" className="btn-outline">
               Send me a message
-            </motion.a>
+            </a>
           </motion.div>
         </div>
 

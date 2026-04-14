@@ -38,32 +38,23 @@ export default function About() {
               Chennai, India
             </p>
 
-            {/* Social icons */}
+            {/* Social icons — CSS hover only */}
             <div style={{ display: 'flex', gap: 12 }}>
               {[
                 { icon: <FaEnvelope size={15} />, href: 'mailto:yashsk1505@gmail.com', label: 'Email' },
                 { icon: <FaGithub size={15} />, href: 'https://github.com/Yashk-15', label: 'GitHub' },
                 { icon: <FaLinkedin size={15} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
               ].map(s => (
-                <motion.a
+                <a
                   key={s.label}
                   href={s.href}
                   target={s.href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  whileHover={{ scale: 1.15 }}
-                  style={{
-                    width: 34, height: 34,
-                    borderRadius: '50%',
-                    border: '1.5px solid rgba(255,255,255,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: '#94a3b8', textDecoration: 'none', transition: 'all 0.2s',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--teal)'; e.currentTarget.style.color = 'var(--teal)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#94a3b8'; }}
+                  className="social-icon-btn"
                 >
                   {s.icon}
-                </motion.a>
+                </a>
               ))}
             </div>
           </motion.div>
@@ -80,13 +71,13 @@ export default function About() {
               Know a little about me
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.85, marginBottom: 16 }}>
-              I&apos;m a <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Frontend & Cloud Developer</span> and{' '}
+              I&apos;m a <span style={{ color: 'var(--teal)', fontWeight: 600 }}>Frontend &amp; Cloud Developer</span> and{' '}
               <span style={{ color: 'var(--teal)', fontWeight: 600 }}>AWS Certified Cloud Practitioner</span> pursuing my B.Tech in
               Computer Science (Software Engineering) at SRM Institute of Science and Technology, Chennai
             </p>
             <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.85, marginBottom: 24 }}>
               I love building real-world applications that are fast, scalable, and beautifully designed. My work spans
-              <span style={{ color: '#e2e8f0', fontWeight: 500 }}> React & Next.js</span> on the frontend,{' '}
+              <span style={{ color: '#e2e8f0', fontWeight: 500 }}> React &amp; Next.js</span> on the frontend,{' '}
               <span style={{ color: '#e2e8f0', fontWeight: 500 }}>Flutter</span> for mobile, and{' '}
               <span style={{ color: '#e2e8f0', fontWeight: 500 }}>AWS serverless infrastructure</span> — including Lambda, DynamoDB, Cognito, and EventBridge.{' '}
               I&apos;m always exploring new tools and patterns to push the quality of my work.
@@ -117,6 +108,19 @@ export default function About() {
       </div>
 
       <style>{`
+        .social-icon-btn {
+          width: 34px; height: 34px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255,255,255,0.12);
+          display: flex; align-items: center; justify-content: center;
+          color: #94a3b8; text-decoration: none;
+          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        .social-icon-btn:hover {
+          border-color: var(--teal);
+          color: var(--teal);
+          transform: scale(1.15);
+        }
         @media (max-width: 768px) {
           .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .stats-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }

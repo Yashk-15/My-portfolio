@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 
@@ -18,55 +18,39 @@ export default function Navbar() {
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
-    window.addEventListener('scroll', fn);
+    window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
   return (
-    <motion.nav
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <nav
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
         background: scrolled ? 'rgba(13,27,42,0.95)' : 'transparent',
         backdropFilter: scrolled ? 'blur(12px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
-        transition: 'all 0.3s ease',
+        transition: 'background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease',
       }}
     >
       <div className="container-main">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 0' }}>
-          {/* Logo */}
-          <motion.a href="#home" whileHover={{ scale: 1.03 }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}
-          >
+          {/* Logo — CSS hover only */}
+          <a href="#home" className="nav-logo" style={{ display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
             <span style={{ color: 'var(--teal)', fontWeight: 700, fontSize: '0.9rem' }}>{'</'}</span>
             <span style={{ color: '#e2e8f0', fontWeight: 700, fontSize: '1rem', letterSpacing: '-0.02em' }}>Yash Kaushik</span>
             <span style={{ color: 'var(--teal)', fontWeight: 700, fontSize: '0.9rem' }}>{'>'}</span>
-          </motion.a>
+          </a>
 
-          {/* Desktop nav */}
+          {/* Desktop nav — CSS hover via class */}
           <div style={{ display: 'flex', gap: 36, alignItems: 'center' }} className="hidden-mobile">
-            {navItems.map((item, i) => (
-              <motion.a
+            {navItems.map((item) => (
+              <a
                 key={item.name}
                 href={item.href}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
-                style={{
-                  color: '#94a3b8',
-                  textDecoration: 'none',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  transition: 'color 0.2s',
-                }}
-                onMouseEnter={e => e.target.style.color = 'var(--teal)'}
-                onMouseLeave={e => e.target.style.color = '#94a3b8'}
+                className="nav-link"
               >
                 {item.name}
-              </motion.a>
+              </a>
             ))}
           </div>
 
@@ -75,6 +59,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'none' }}
             className="show-mobile"
+            aria-label="Toggle menu"
           >
             {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
@@ -97,25 +82,8 @@ export default function Navbar() {
             <div className="container-main" style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
               {navItems.map(item => (
                 <a key={item.name} href={item.href}
-                  onClick={(e) => {
-                    // Close menu after a short delay so browser can follow the anchor first
-                    setTimeout(() => setMenuOpen(false), 100);
-                  }}
-                  style={{
-                    color: '#94a3b8', textDecoration: 'none',
-                    fontSize: '1rem', fontWeight: 500,
-                    padding: '14px 12px',
-                    borderRadius: 8,
-                    display: 'block',
-                    borderBottom: '1px solid rgba(255,255,255,0.04)',
-                    transition: 'color 0.2s, background 0.2s',
-                    WebkitTapHighlightColor: 'transparent',
-                    cursor: 'pointer',
-                  }}
-                  onTouchStart={e => { e.currentTarget.style.color = 'var(--teal)'; e.currentTarget.style.background = 'rgba(0,217,181,0.06)'; }}
-                  onTouchEnd={e => { setTimeout(() => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'transparent'; }, 300); }}
-                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--teal)'; e.currentTarget.style.background = 'rgba(0,217,181,0.06)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'transparent'; }}
+                  onClick={() => setTimeout(() => setMenuOpen(false), 100)}
+                  className="nav-mobile-link"
                 >
                   {item.name}
                 </a>
@@ -126,11 +94,34 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
+        .nav-logo { transition: opacity 0.2s ease; }
+        .nav-logo:hover { opacity: 0.8; }
+        .nav-link {
+          color: #94a3b8;
+          text-decoration: none;
+          font-size: 0.875rem;
+          font-weight: 500;
+          transition: color 0.2s ease;
+        }
+        .nav-link:hover { color: var(--teal); }
+        .nav-mobile-link {
+          color: #94a3b8; text-decoration: none;
+          font-size: 1rem; font-weight: 500;
+          padding: 14px 12px;
+          border-radius: 8px;
+          display: block;
+          border-bottom: 1px solid rgba(255,255,255,0.04);
+          transition: color 0.2s ease, background 0.2s ease;
+          -webkit-tap-highlight-color: transparent;
+          cursor: pointer;
+        }
+        .nav-mobile-link:hover,
+        .nav-mobile-link:active { color: var(--teal); background: rgba(0,217,181,0.06); }
         @media (max-width: 768px) {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: block !important; }
         }
       `}</style>
-    </motion.nav>
+    </nav>
   );
 }
