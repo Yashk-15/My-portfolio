@@ -21,7 +21,7 @@ section { scroll-margin-top: 72px; }
 body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sora), 'Sora', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   overflow-x: hidden;
@@ -34,7 +34,7 @@ body {
 
 /* ── Typography ── */
 h1, h2, h3, h4 {
-  font-family: var(--font-geist), 'Geist', system-ui, sans-serif;
+  font-family: var(--font-sora), 'Sora', system-ui, sans-serif;
   color: var(--text);
   font-weight: 600;
   letter-spacing: -0.02em;
