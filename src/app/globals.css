@@ -34,8 +34,13 @@
 }
 
 /* ── Smooth theme transition ── */
-*, *::before, *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+/* Scope to color-related properties only — do NOT include transform/opacity/
+   box-shadow as that would delay every animation and hurt INP. */
+body,
+body *:not(video):not(img):not(.no-transition) {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

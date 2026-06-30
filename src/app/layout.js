@@ -25,9 +25,29 @@ export const viewport = {
   maximumScale: 5,
 };
 
+// Inline script: runs synchronously before the first paint.
+// Reads localStorage / system preference and sets data-theme on <html>
+// so CSS variables are correct from the very first pixel — no layout shift,
+// no blank screen, no flash of wrong theme.
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('portfolio-theme');
+    if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch(e) {}
+})();
+`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${sora.variable}`}>
+    // suppressHydrationWarning: data-theme is set by the inline script before
+    // React hydrates, so the attribute will differ from the SSR default — this
+    // suppresses the harmless mismatch warning.
+    <html lang="en" className={`${sora.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <ThemeProvider>
           {children}

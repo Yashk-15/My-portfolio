@@ -5,32 +5,25 @@ import { createContext, useContext, useEffect, useState } from 'react';
 const ThemeContext = createContext({ theme: 'light', toggle: () => {} });
 
 export function ThemeProvider({ children }) {
+  // Default to 'light' for SSR; the inline <script> in layout.js applies
+  // the correct data-theme attribute before the first paint so there is no flash.
   const [theme, setTheme] = useState('light');
-  const [mounted, setMounted] = useState(false);
 
-  // On mount, read saved preference (or system preference)
+  // Sync React state with whatever the inline script already set on <html>
   useEffect(() => {
-    const saved = localStorage.getItem('portfolio-theme');
-    if (saved) {
-      setTheme(saved);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
-    }
-    setMounted(true);
+    const applied = document.documentElement.getAttribute('data-theme');
+    if (applied) setTheme(applied);
   }, []);
 
-  // Apply theme to <html> data-theme attribute
+  // Keep <html> data-theme and localStorage in sync whenever theme changes
   useEffect(() => {
-    if (!mounted) return;
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('portfolio-theme', theme);
-  }, [theme, mounted]);
+  }, [theme]);
 
   const toggle = () => setTheme(t => (t === 'light' ? 'dark' : 'light'));
 
-  // Avoid flash of wrong theme — render children only after mount
-  if (!mounted) return null;
-
+  // Always render children — no mounting gate that blocks FCP/LCP
   return (
     <ThemeContext.Provider value={{ theme, toggle }}>
       {children}
