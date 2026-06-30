@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowDown } from 'react-icons/fa';
+import { useTheme } from './ThemeProvider';
+
 
 const COMMANDS = [
   { type: 'cmd',  text: 'npx yash-kaushik' },
@@ -21,6 +23,7 @@ function TerminalHero() {
   const [visibleLines, setVisibleLines] = useState(0);
   const [showCursor, setShowCursor]     = useState(true);
   const prefersReduced = useReducedMotion();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (prefersReduced) { setVisibleLines(COMMANDS.length); return; }
@@ -52,13 +55,13 @@ function TerminalHero() {
     >
       {/* Window chrome */}
       <div style={{
-        background: '#EEE9DF',
+        background: 'var(--bg-card)',
         borderRadius: '10px 10px 0 0',
         padding: '10px 14px',
         display: 'flex',
         alignItems: 'center',
         gap: 6,
-        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        borderBottom: '1px solid var(--border)',
       }}>
         <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#ff5f57' }} />
         <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#febc2e' }} />
@@ -76,9 +79,9 @@ function TerminalHero() {
 
       {/* Terminal body */}
       <div style={{
-        background: '#E8E2D4',
+        background: theme === 'dark' ? '#0d1117' : '#E8E2D4',
         borderRadius: '0 0 10px 10px',
-        border: '1px solid rgba(0,0,0,0.08)',
+        border: '1px solid var(--border)',
         borderTop: 'none',
         padding: '20px 22px 24px',
         fontFamily: '"Fira Code", "Cascadia Code", "Consolas", monospace',
@@ -294,8 +297,8 @@ export default function Hero() {
           -webkit-tap-highlight-color: transparent;
         }
         .social-icon-btn:hover {
-          border-color: var(--teal);
-          color: var(--teal);
+          border-color: var(--accent);
+          color: var(--accent);
           transform: scale(1.1);
         }
       `}</style>

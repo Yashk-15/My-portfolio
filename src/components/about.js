@@ -125,8 +125,8 @@ export default function About() {
               <div style={{
                 width: 130, height: 130,
                 borderRadius: '50%',
-                background: '#EEE9DF',
-                border: '1.5px solid rgba(61,90,128,0.2)',
+                background: 'var(--bg-card)',
+                border: '1.5px solid var(--border)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 overflow: 'hidden',
                 flexShrink: 0,
@@ -203,7 +203,7 @@ export default function About() {
                   padding: '16px',
                   textAlign: 'center',
                 }}>
-                  <div style={{ color: 'var(--teal)', fontSize: '1.6rem', fontWeight: 800, lineHeight: 1 }}>{stat.value}</div>
+                  <div style={{ color: 'var(--accent)', fontSize: '1.6rem', fontWeight: 800, lineHeight: 1 }}>{stat.value}</div>
                   <div style={{ color: 'var(--muted)', fontSize: '0.72rem', marginTop: 6, letterSpacing: '0.03em' }}>{stat.label}</div>
                 </div>
               ))}
@@ -217,14 +217,16 @@ export default function About() {
         .social-icon-btn {
           width: 34px; height: 34px;
           border-radius: 50%;
-          border: 1.5px solid rgba(255,255,255,0.12);
+          border: 1.5px solid var(--border-hover);
+          background: var(--bg-card);
           display: flex; align-items: center; justify-content: center;
-          color: #94a3b8; text-decoration: none;
-          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+          color: var(--muted); text-decoration: none;
+          transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, background 0.2s ease;
         }
         .social-icon-btn:hover {
-          border-color: var(--teal);
-          color: var(--teal);
+          border-color: var(--accent);
+          color: var(--accent);
+          background: var(--accent-dim);
           transform: scale(1.15);
         }
         @media (max-width: 768px) {

@@ -55,7 +55,7 @@ export default function Contact() {
                     className="contact-link"
                   >{c.label}</a>
                 ) : (
-                  <span style={{ color: '#94a3b8', fontSize: '0.875rem' }}>{c.label}</span>
+                  <span style={{ color: 'var(--muted)', fontSize: '0.875rem' }}>{c.label}</span>
                 )}
               </div>
             ))}
@@ -104,7 +104,7 @@ export default function Contact() {
             paddingTop: 24,
             borderTop: '1px solid var(--border)',
             textAlign: 'center',
-            color: '#334155',
+            color: 'var(--muted)',
             fontSize: '0.78rem',
           }}
         >
