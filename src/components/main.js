@@ -169,18 +169,9 @@ export default function Hero() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'center', gap: '60px', minHeight: 'calc(100vh - 80px)' }} className="hero-grid">
 
           {/* Left — Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="hero-text"
-          >
-            {/* Role label */}
-            <div className="section-label" style={{ marginBottom: 24 }}>
-              Full-Stack & Cloud Engineer | React · Next.js · Node.js · AWS
-            </div>
+          <div className="hero-text">
 
-            {/* Name — this becomes the LCP element on mobile */}
+            {/* Name — LCP element: must render immediately, NOT inside opacity:0 wrapper */}
             <h1 style={{
               fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
               fontWeight: 800,
@@ -192,47 +183,64 @@ export default function Hero() {
               Yash Kaushik
             </h1>
 
+            {/* Role label */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+            >
+              <div className="section-label" style={{ marginBottom: 16 }}>
+                Full-Stack &amp; Cloud Engineer | React · Next.js · Node.js · AWS
+              </div>
+            </motion.div>
+
             {/* Description */}
-            <p style={{
-              color: 'var(--muted)',
-              fontSize: '0.95rem',
-              lineHeight: 1.75,
-              maxWidth: '420px',
-              marginBottom: 36,
-            }}>
-              Building fast, scalable, web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value, improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.15 }}
+            >
+              <p style={{
+                color: 'var(--muted)',
+                fontSize: '0.95rem',
+                lineHeight: 1.75,
+                maxWidth: '420px',
+                marginBottom: 36,
+              }}>
+                Building fast, scalable, web applications using Next.js, React, and AWS. Focused on delivering solutions that not only perform efficiently but also create measurable business value, improving operational efficiency, enhancing user experience, and enabling organizations to scale reliably while meeting the needs of their end users.{' '}
+              </p>
 
-            {/* Buttons — min 44px touch target height */}
-            <div className="hero-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
-              <a href="#projects" className="btn-outline hero-btn">
-                View Projects
-              </a>
-              <a href="#contact" className="btn-solid hero-btn">
-                Contact Me
-              </a>
-            </div>
-
-            {/* Social icons — 44px touch targets */}
-            <div className="hero-socials" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              {[
-                { icon: <FaEnvelope size={16} />, href: 'mailto:yashjk1505@outlook.com', label: 'Email' },
-                { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
-                { icon: <FaLinkedin size={16} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
-              ].map(s => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.href.startsWith('mailto') ? undefined : '_blank'}
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="social-icon-btn"
-                >
-                  {s.icon}
+              {/* Buttons */}
+              <div className="hero-buttons" style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 40 }}>
+                <a href="#projects" className="btn-outline hero-btn">
+                  View Projects
                 </a>
-              ))}
-            </div>
-          </motion.div>
+                <a href="#contact" className="btn-solid hero-btn">
+                  Contact Me
+                </a>
+              </div>
+
+              {/* Social icons */}
+              <div className="hero-socials" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                {[
+                  { icon: <FaEnvelope size={16} />, href: 'mailto:yashjk1505@outlook.com', label: 'Email' },
+                  { icon: <FaGithub size={16} />, href: 'https://github.com/yashk-15', label: 'GitHub' },
+                  { icon: <FaLinkedin size={16} />, href: 'https://linkedin.com/in/yashk15', label: 'LinkedIn' },
+                ].map(s => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target={s.href.startsWith('mailto') ? undefined : '_blank'}
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="social-icon-btn"
+                  >
+                    {s.icon}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
 
           {/* Right — Terminal widget */}
           <div
