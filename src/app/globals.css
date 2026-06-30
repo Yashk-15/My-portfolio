@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+:root {
+  --bg:           #F5F0E8;
+  --bg-card:      #EEE9DF;
+  --bg-card2:     #E8E2D8;
+  --text:         #1a1a1a;
+  --muted:        #5a5a5a;
+  --subtle:       #9a9a8a;
+  --accent:       #3d5a80;
+  --accent-dim:   rgba(61, 90, 128, 0.10);
+  --border:       rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.16);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+section { scroll-margin-top: 72px; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+/* ── Typography ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-geist), 'Geist', system-ui, sans-serif;
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ── Container ── */
+.container-main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Section label ── */
+.section-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+/* ── Navbar ── */
+.nav-logo { text-decoration: none; }
+.nav-logo:hover span { opacity: 0.7; }
+
+.nav-link {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
+}
+.nav-link:hover { color: var(--text); }
+
+/* ── Buttons ── */
+.btn-solid {
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn-solid:hover { opacity: 0.85; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border-hover);
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Cards ── */
+.skill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.skill-card:hover {
+  background: var(--bg-card2);
+  border-color: var(--border-hover);
+}
+.skill-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.skill-card:hover::after { opacity: 1; }
+
+/* ── Avatar ring ── */
+.avatar-ring {
+  border: 2px solid rgba(61, 90, 128, 0.2);
+  border-radius: 50%;
+  padding: 4px;
+  display: inline-block;
+}
+
+/* ── Social icon buttons ── */
+.social-icon-btn {
+  width: 34px; height: 34px;
+  border-radius: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.social-icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ── Nav active state ── */
+.nav-link.active { color: var(--accent); }
+
+/* ── Education item ── */
+.edu-item { transition: background 0.2s; }
+.edu-item:hover { background: var(--bg-card2) !important; }
+
+/* ── Cert card ── */
+.cert-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s;
+}
+.cert-card:hover {
+  transform: translateY(-2px);
+  background: var(--bg-card2) !important;
+  border-color: var(--border-hover) !important;
+}
+
+/* ── Contact link ── */
+.contact-link {
+  color: var(--muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.contact-link:hover { color: var(--accent); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hidden-mobile { display: none !important; }
+  .show-mobile   { display: block !important; }
+  .hero-grid     { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .about-grid    { grid-template-columns: 1fr !important; }
+  .contact-grid  { grid-template-columns: 1fr !important; }
+  section { padding: 60px 0 !important; }
+  .container-main { padding: 0 16px; }
+  h2 { font-size: 1.5rem !important; }
+  .btn-outline, .btn-solid {
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media (min-width: 769px) {
+  .show-mobile { display: none !important; }
+}
