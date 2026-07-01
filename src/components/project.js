@@ -329,22 +329,31 @@ function ProjectCard({ proj, i }) {
             position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
           }}>
             {proj.liveUrl && (
-              <div style={{
-                background: 'var(--bg)',
-                border: '1px solid rgba(61,90,128,0.25)',
-                color: 'var(--accent)',
-                fontSize: '0.6rem', fontWeight: 700,
-                padding: '4px 10px', borderRadius: 6,
-                letterSpacing: '0.05em',
-                display: 'flex', alignItems: 'center', gap: 6,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-              }}>
+              <a
+                href={proj.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: 'var(--bg)',
+                  border: '1px solid rgba(61,90,128,0.25)',
+                  color: 'var(--accent)',
+                  fontSize: '0.6rem', fontWeight: 700,
+                  padding: '4px 10px', borderRadius: 6,
+                  letterSpacing: '0.05em',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease, border-color 0.2s ease',
+                }}
+                className="live-badge-link"
+              >
                 <span style={{
                   width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
                   animation: 'pulse-dot 2s infinite',
                 }} />
                 Live
-              </div>
+              </a>
             )}
 
             <span style={{
@@ -400,17 +409,7 @@ function ProjectCard({ proj, i }) {
           ))}
         </ul>
 
-        {/* CTA */}
-        {proj.liveUrl && (
-          <a href={proj.liveUrl} target="_blank" rel="noopener noreferrer"
-            className="proj-live-btn"
-          >
-            <span style={{
-              width: 7, height: 7, borderRadius: '50%', background: 'var(--accent)',
-            }} />
-            Live Preview
-          </a>
-        )}
+
       </div>
     </div>
   );
@@ -498,17 +497,9 @@ export default function Projects() {
           transition: color 0.2s ease;
         }
         .proj-github-link:hover { color: var(--accent); }
-        .proj-live-btn {
-          font-size: 0.75rem; padding: 7px 18px;
-          display: inline-flex; align-items: center; gap: 7px; width: fit-content;
-          background: var(--accent-dim); color: var(--accent);
-          border: 1px solid rgba(61,90,128,0.2);
-          border-radius: 6px; font-weight: 700; text-decoration: none;
-          transition: background 0.2s ease, border-color 0.2s ease;
-        }
-        .proj-live-btn:hover {
-          background: rgba(61,90,128,0.18);
-          border-color: rgba(61,90,128,0.35);
+        .live-badge-link:hover {
+          background: var(--accent-dim) !important;
+          border-color: rgba(61,90,128,0.45) !important;
         }
         .cat-tab {
           display: flex; align-items: center; gap: 7px;
