@@ -145,6 +145,7 @@ function TechChip({ tech }) {
 function ProjectCard({ proj, i }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -154,8 +155,9 @@ function ProjectCard({ proj, i }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Play/pause video on hover or mobile — video has preload="none" so no data
-  // is fetched until actually needed.
+  // Play/pause video on hover or mobile.
+  // preload="metadata" fetches just the video header (~20 KB) upfront so the
+  // browser can start decoding immediately on hover without a full download.
   useEffect(() => {
     if (!videoRef.current) return;
     if (isMobile || isHovered) {
@@ -234,20 +236,24 @@ function ProjectCard({ proj, i }) {
               }}
               sizes="120px"
             />
-            {/* Video — preload=none so no bytes fetched until hover */}
+            {/* Video — preload=metadata fetches ~20 KB header upfront so
+                the browser can start decoding instantly on hover */}
             {proj.video && (
               <video
                 ref={videoRef}
                 src={proj.video}
+                poster={proj.image}
                 loop
                 muted
                 playsInline
-                preload="none"
+                preload="metadata"
+                type="video/mp4"
+                onCanPlay={() => setVideoReady(true)}
                 style={{
                   position: 'absolute', top: 0, left: 0,
                   width: '100%', height: '100%',
                   objectFit: 'cover', objectPosition: 'top',
-                  opacity: isVideoPlaying ? 1 : 0,
+                  opacity: isVideoPlaying && videoReady ? 1 : 0,
                   transition: 'opacity 0.4s ease',
                   pointerEvents: 'none',
                   zIndex: 1,
@@ -289,19 +295,23 @@ function ProjectCard({ proj, i }) {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
 
-          {/* Video on Hover — preload=none prevents eager loading of large mp4 files */}
+          {/* Video on Hover — preload=metadata fetches ~20 KB header upfront
+              so the browser can start decoding instantly on hover */}
           {proj.video && (
             <video
               ref={videoRef}
               src={proj.video}
+              poster={proj.image}
               loop
               muted
               playsInline
-              preload="none"
+              preload="metadata"
+              type="video/mp4"
+              onCanPlay={() => setVideoReady(true)}
               style={{
                 position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
                 objectFit: 'cover', objectPosition: 'top',
-                opacity: isVideoPlaying ? 1 : 0,
+                opacity: isVideoPlaying && videoReady ? 1 : 0,
                 transition: 'opacity 0.4s ease',
                 pointerEvents: 'none',
               }}
