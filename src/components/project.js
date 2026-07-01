@@ -98,6 +98,7 @@ const projects = [
     ],
     techLogos: ['Next.js', 'AWS Cognito', 'Lambda', 'DynamoDB', 'API Gateway', 'Tailwind CSS'],
     github: 'https://github.com/Yashk-15',
+    liveUrl: 'https://my-url-monitoring.vercel.app/',
   },
   {
     category: 'app',
