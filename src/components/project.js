@@ -141,6 +141,7 @@ const projects = [
     ],
     techLogos: ['React.js', 'GitHub API', 'Groq AI', 'Tailwind CSS', 'Vercel'],
     github: 'https://github.com/Yashk-15',
+    liveUrl: 'https://chromewebstore.google.com/detail/gecopbegagjjfolglkjolfbkmjabghdd?utm_source=item-share-cb',
   },
 ];
 
@@ -299,29 +300,32 @@ function ProjectCard({ proj, i }) {
         </div>
       )
         : proj.category === 'extensions' ? (
-          <div style={{
-            background: 'var(--bg-card2)',
-            borderBottom: '1px solid var(--border)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: 280,
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
+          <div
+            style={{
+              background: 'var(--bg-card2)',
+              borderBottom: '1px solid var(--border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: 280,
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
             <Image
               src={proj.image}
               alt={`${proj.title} preview`}
               fill
               loading="lazy"
               style={{
-                objectFit: 'contain',   // portrait screenshot - show it in full
+                objectFit: 'contain',
                 objectPosition: 'center',
                 opacity: isVideoPlaying && proj.video ? 0 : 1,
                 transition: 'opacity 0.4s ease',
               }}
               sizes="(max-width: 768px) 100vw, 50vw"
             />
+
             {proj.video && (
               <video
                 ref={videoRef}
@@ -333,9 +337,12 @@ function ProjectCard({ proj, i }) {
                 preload="metadata"
                 onCanPlay={() => setVideoReady(true)}
                 style={{
-                  position: 'absolute', top: 0, left: 0,
-                  width: '100%', height: '100%',
-                  objectFit: 'cover',   // landscape video - fill the box, crop if needed
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
                   objectPosition: 'center',
                   opacity: isVideoPlaying && videoReady ? 1 : 0,
                   transition: 'opacity 0.4s ease',
@@ -343,15 +350,70 @@ function ProjectCard({ proj, i }) {
                 }}
               />
             )}
-            <span style={{
-              position: 'absolute', top: 10, right: 10,
-              background: 'var(--bg)',
-              border: '1px solid var(--border)',
-              color: 'var(--subtle)',
-              fontSize: '0.6rem', fontWeight: 700,
-              padding: '3px 9px', borderRadius: 4,
-              letterSpacing: '0.05em',
-            }}>{proj.type}</span>
+
+            <span
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                gap: 8,
+              }}
+            >
+              {proj.liveUrl && (
+                <a
+                  href={proj.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="live-badge-link"
+                  style={{
+                    background: 'var(--bg)',
+                    border: '1px solid rgba(61,90,128,0.25)',
+                    color: 'var(--accent)',
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    padding: '4px 10px',
+                    borderRadius: 6,
+                    letterSpacing: '0.05em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s ease, border-color 0.2s ease',
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: '50%',
+                      background: 'var(--accent)',
+                      animation: 'pulse-dot 2s infinite',
+                    }}
+                  />
+                  Live
+                </a>
+              )}
+
+              <span
+                style={{
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--subtle)',
+                  fontSize: '0.6rem',
+                  fontWeight: 700,
+                  padding: '3px 9px',
+                  borderRadius: 4,
+                  letterSpacing: '0.05em',
+                }}
+              >
+                {proj.type}
+              </span>
+            </span>
           </div>
         )
           : (
