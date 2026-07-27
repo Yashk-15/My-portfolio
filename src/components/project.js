@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import {
-  FaGithub, FaAws, FaMobileAlt, FaReact, FaPython, FaDatabase,
+  FaGithub, FaAws, FaMobileAlt, FaReact, FaPython, FaDatabase, FaPuzzlePiece,
 } from 'react-icons/fa';
 import {
   SiNextdotjs, SiTailwindcss, SiFirebase, SiFlutter, SiDart,
-  SiAmazondynamodb, SiMysql, SiFramer,
+  SiAmazondynamodb, SiMysql, SiFramer, SiVercel
 } from 'react-icons/si';
 import { MdWeb } from 'react-icons/md';
 import { TbBrandOpenai } from 'react-icons/tb';
@@ -31,6 +31,9 @@ const ICONS = {
   'CoinGecko API': { icon: <TbBrandOpenai size={14} />, color: '#8DC63F' },
   'OpenWeather API': { icon: <TbBrandOpenai size={14} />, color: '#f97316' },
   'CSS': { icon: <FaReact size={14} />, color: '#38BDF8' },
+  'GitHub API': { icon: <FaGithub size={14} />, color: '#ffffff' },
+  'Vercel': { icon: <SiVercel size={14} />, color: '#ffffff' },
+  'Groq AI': { icon: <TbBrandOpenai size={14} />, color: '#F54A2A' },
 };
 
 // ── Category tabs ────────────────────────────────────────
@@ -38,6 +41,7 @@ const categories = [
   { id: 'web', label: 'Web Development', icon: <MdWeb size={15} /> },
   { id: 'aws', label: 'AWS & Cloud', icon: <FaAws size={13} /> },
   { id: 'app', label: 'App Development', icon: <FaMobileAlt size={13} /> },
+  { id: 'extensions', label: 'Extensions', icon: <FaPuzzlePiece size={13} /> },
 ];
 
 // ── Project data ─────────────────────────────────────────
@@ -119,6 +123,25 @@ const projects = [
     techLogos: ['Flutter', 'Firebase', 'Riverpod', 'Dart', 'Firestore'],
     github: 'https://github.com/Yashk-15',
   },
+  {
+    category: 'extensions',
+    title: 'Repo Buddy',
+    subtitle: 'Chrome Extension for Open-Source Newcomers',
+    date: '2026',
+    type: 'Self Project',
+    image: '/extension.png',
+    video: '/repo.mp4',
+    description:
+      'Built a Chrome extension that helps open-source newcomers figure out where to start contributing in an unfamiliar repo — instead of scrolling through hundreds of files guessing what matters.',
+    highlights: [
+      'Recursive repo tree fetcher that walks the full file structure via the GitHub API, rather than relying on a shallow top-level scan',
+      'Custom heuristic scoring engine that ranks files and folders by contribution-worthiness — surfacing beginner-friendly entry points automatically',
+      'Beginner issue matching that cross-references open "good first issue" labels with the scored file structure',
+      'AI-powered repo summary generated through a Vercel-hosted backend calling Groq, giving newcomers a plain-English orientation before they dive in',
+    ],
+    techLogos: ['React.js', 'GitHub API', 'Groq AI', 'Tailwind CSS', 'Vercel'],
+    github: 'https://github.com/Yashk-15',
+  },
 ];
 
 // ── Tech logo chip ────────────────────────────────────────
@@ -162,7 +185,7 @@ function ProjectCard({ proj, i }) {
   useEffect(() => {
     if (!videoRef.current) return;
     if (isMobile || isHovered) {
-      videoRef.current.play().catch(() => {});
+      videoRef.current.play().catch(() => { });
     } else {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
@@ -274,90 +297,54 @@ function ProjectCard({ proj, i }) {
             letterSpacing: '0.05em',
           }}>{proj.type}</span>
         </div>
-      ) : (
-        /* Regular landscape thumbnail for Web/Cloud projects */
-        <div style={{
-          position: 'relative', height: 200, overflow: 'hidden',
-          background: 'var(--bg-card)',
-          borderBottom: '1px solid var(--border)',
-        }}>
-          {/* Static Image */}
-          <Image
-            src={proj.image}
-            alt={`${proj.title} preview`}
-            fill
-            loading="lazy"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'top',
-              transition: 'opacity 0.4s ease, transform 0.4s ease',
-              opacity: isVideoPlaying && proj.video ? 0 : 1,
-            }}
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-
-          {/* Video on Hover — preload=metadata fetches ~20 KB header upfront
-              so the browser can start decoding instantly on hover */}
-          {proj.video && (
-            <video
-              ref={videoRef}
-              src={proj.video}
-              poster={proj.image}
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              type="video/mp4"
-              onCanPlay={() => setVideoReady(true)}
-              style={{
-                position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                objectFit: 'cover', objectPosition: 'top',
-                opacity: isVideoPlaying && videoReady ? 1 : 0,
-                transition: 'opacity 0.4s ease',
-                pointerEvents: 'none',
-              }}
-            />
-          )}
-
-          {/* Gradient overlay at bottom */}
+      )
+        : proj.category === 'extensions' ? (
           <div style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
-            background: 'linear-gradient(to top, var(--bg-card), transparent)',
-            pointerEvents: 'none',
-          }} />
-          {/* Type badge */}
-          <span style={{
-            position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
+            background: 'var(--bg-card2)',
+            borderBottom: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 280,
+            position: 'relative',
+            overflow: 'hidden',
           }}>
-            {proj.liveUrl && (
-              <a
-                href={proj.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+            <Image
+              src={proj.image}
+              alt={`${proj.title} preview`}
+              fill
+              loading="lazy"
+              style={{
+                objectFit: 'contain',   // portrait screenshot - show it in full
+                objectPosition: 'center',
+                opacity: isVideoPlaying && proj.video ? 0 : 1,
+                transition: 'opacity 0.4s ease',
+              }}
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            {proj.video && (
+              <video
+                ref={videoRef}
+                src={proj.video}
+                poster={proj.image}
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                onCanPlay={() => setVideoReady(true)}
                 style={{
-                  background: 'var(--bg)',
-                  border: '1px solid rgba(61,90,128,0.25)',
-                  color: 'var(--accent)',
-                  fontSize: '0.6rem', fontWeight: 700,
-                  padding: '4px 10px', borderRadius: 6,
-                  letterSpacing: '0.05em',
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                  transition: 'background 0.2s ease, border-color 0.2s ease',
+                  position: 'absolute', top: 0, left: 0,
+                  width: '100%', height: '100%',
+                  objectFit: 'cover',   // landscape video - fill the box, crop if needed
+                  objectPosition: 'center',
+                  opacity: isVideoPlaying && videoReady ? 1 : 0,
+                  transition: 'opacity 0.4s ease',
+                  pointerEvents: 'none',
                 }}
-                className="live-badge-link"
-              >
-                <span style={{
-                  width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
-                  animation: 'pulse-dot 2s infinite',
-                }} />
-                Live
-              </a>
+              />
             )}
-
             <span style={{
+              position: 'absolute', top: 10, right: 10,
               background: 'var(--bg)',
               border: '1px solid var(--border)',
               color: 'var(--subtle)',
@@ -365,9 +352,132 @@ function ProjectCard({ proj, i }) {
               padding: '3px 9px', borderRadius: 4,
               letterSpacing: '0.05em',
             }}>{proj.type}</span>
-          </span>
-        </div>
-      )}
+          </div>
+        )
+          : (
+            /* Regular landscape thumbnail for Web/Cloud projects */
+            <div style={{
+              position: 'relative', height: 200, overflow: 'hidden',
+              background: 'var(--bg-card)',
+              borderBottom: '1px solid var(--border)',
+            }}>
+              {proj.video && (
+                <video
+                  ref={videoRef}
+                  src={proj.video}
+                  poster={proj.image}
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  onCanPlay={() => setVideoReady(true)}
+                  style={{
+                    position: 'absolute', top: 0, left: 0,
+                    width: '100%', height: '100%',
+                    objectFit: 'contain',
+                    opacity: isVideoPlaying && videoReady ? 1 : 0,
+                    transition: 'opacity 0.4s ease',
+                    pointerEvents: 'none',
+                  }}
+                />
+              )}
+              <span style={{
+                position: 'absolute', top: 10, right: 10,
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
+                color: 'var(--subtle)',
+                fontSize: '0.6rem', fontWeight: 700,
+                padding: '3px 9px', borderRadius: 4,
+                letterSpacing: '0.05em',
+              }}>{proj.type}</span>
+              {/* Static Image */}
+              <Image
+                src={proj.image}
+                alt={`${proj.title} preview`}
+                fill
+                loading="lazy"
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'top',
+                  transition: 'opacity 0.4s ease, transform 0.4s ease',
+                  opacity: isVideoPlaying && proj.video ? 0 : 1,
+                }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+
+              {/* Video on Hover — preload=metadata fetches ~20 KB header upfront
+              so the browser can start decoding instantly on hover */}
+              {proj.video && (
+                <video
+                  ref={videoRef}
+                  src={proj.video}
+                  poster={proj.image}
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  type="video/mp4"
+                  onCanPlay={() => setVideoReady(true)}
+                  style={{
+                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'top',
+                    opacity: isVideoPlaying && videoReady ? 1 : 0,
+                    transition: 'opacity 0.4s ease',
+                    pointerEvents: 'none',
+                  }}
+                />
+              )}
+
+              {/* Gradient overlay at bottom */}
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
+                background: 'linear-gradient(to top, var(--bg-card), transparent)',
+                pointerEvents: 'none',
+              }} />
+              {/* Type badge */}
+              <span style={{
+                position: 'absolute', top: 10, right: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8,
+              }}>
+                {proj.liveUrl && (
+                  <a
+                    href={proj.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      background: 'var(--bg)',
+                      border: '1px solid rgba(61,90,128,0.25)',
+                      color: 'var(--accent)',
+                      fontSize: '0.6rem', fontWeight: 700,
+                      padding: '4px 10px', borderRadius: 6,
+                      letterSpacing: '0.05em',
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      textDecoration: 'none',
+                      cursor: 'pointer',
+                      transition: 'background 0.2s ease, border-color 0.2s ease',
+                    }}
+                    className="live-badge-link"
+                  >
+                    <span style={{
+                      width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)',
+                      animation: 'pulse-dot 2s infinite',
+                    }} />
+                    Live
+                  </a>
+                )}
+
+                <span style={{
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--subtle)',
+                  fontSize: '0.6rem', fontWeight: 700,
+                  padding: '3px 9px', borderRadius: 4,
+                  letterSpacing: '0.05em',
+                }}>{proj.type}</span>
+              </span>
+            </div>
+          )
+      }
 
       {/* ── Body ── */}
       <div style={{ padding: '18px 20px 20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -412,7 +522,7 @@ function ProjectCard({ proj, i }) {
 
 
       </div>
-    </div>
+    </div >
   );
 }
 
