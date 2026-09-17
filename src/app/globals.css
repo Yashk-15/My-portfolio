@@ -34,18 +34,30 @@
 }
 
 /* ── Smooth theme transition ── */
-/* Scope to color-related properties only — do NOT include transform/opacity/
-   box-shadow as that would delay every animation and hurt INP. */
+/* Scope theme transitions ONLY to color properties on non-interactive elements.
+   Excluding buttons/links prevents the global transition from blocking INP. */
 body,
-body *:not(video):not(img):not(.no-transition) {
+body *:not(video):not(img):not(canvas):not(.no-transition):not(button):not(a):not(input) {
   transition-property: background-color, border-color, color;
-  transition-duration: 0.3s;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+/* Interactive elements: faster intentional transition, not the global one */
+button, a, input {
+  transition-property: background-color, border-color, color, opacity;
+  transition-duration: 0.15s;
   transition-timing-function: ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+/* Reduce rendering cost for off-screen sections */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
 section { scroll-margin-top: 72px; }
 
 body {

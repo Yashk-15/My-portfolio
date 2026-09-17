@@ -52,7 +52,7 @@ const projects = [
     subtitle: 'Cryptocurrency Dashboard',
     date: 'August 2025',
     type: 'Self Project',
-    image: '/project-crypto.png',
+    image: '/project-crypto.webp',
     video: '/crypto pulse.mp4',
     description:
       'Built a crypto dashboard with Next.js and CoinGecko API that covers live prices, charts, liquidity metrics, and portfolio tracking — the kind of all-in-one tool most people pay for on CoinMarketCap',
@@ -72,7 +72,7 @@ const projects = [
     subtitle: 'Space-Themed Weather App',
     date: 'June 2025',
     type: 'Self Project',
-    image: '/weather.png',
+    image: '/weather.webp',
     video: '/weather.mp4',
     description:
       'Built a weather app in React where the entire background visually reacts to live weather conditions — cloudy, rainy, or clear sky each trigger a different full-screen background, making the UI feel alive rather than just displaying data',
@@ -91,7 +91,7 @@ const projects = [
     subtitle: 'Serverless Uptime Analytics',
     date: '2026',
     type: 'Self Project',
-    image: '/URL monitoring.png',
+    image: '/url-monitoring.webp',
     video: '/URL monitoring video.mp4',
     description:
       'Built a fully serverless SaaS on AWS (EventBridge + Lambda) that health-checks user-registered URLs on a configurable schedule – eliminating persistent server costs and storing status, latency, and HTTP codes in DynamoDB.',
@@ -110,7 +110,7 @@ const projects = [
     subtitle: 'Digital Wallet — Techforce Australia Internship',
     date: '2026',
     type: 'Internship Project',
-    image: '/Techpay.jpeg',
+    image: '/techpay.webp',
     video: '/techpay video.mp4',
     description:
       'Full-stack cross-platform digital payments app with NFC payments, QR scanning, P2P transfers, and bill-split across iOS and Android.',
@@ -129,7 +129,7 @@ const projects = [
     subtitle: 'Chrome Extension for Open-Source Newcomers',
     date: '2026',
     type: 'Self Project',
-    image: '/extension.png',
+    image: '/extension.webp',
     video: '/repo.mp4',
     description:
       'Built a Chrome extension that helps open-source newcomers figure out where to start contributing in an unfamiliar repo — instead of scrolling through hundreds of files guessing what matters.',
@@ -169,35 +169,55 @@ function TechChip({ tech }) {
 // blocking the main thread on hover/interaction (fixes INP).
 function ProjectCard({ proj, i }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const [preloadReady, setPreloadReady] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const videoRef = useRef(null);
+  const cardRef = useRef(null);
 
+  // Activate preload + mobile-play only when the card enters the viewport.
+  // This prevents all 5 videos from loading network headers simultaneously.
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    const card = cardRef.current;
+    if (!card || !proj.video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsInView(entry.isIntersecting),
+      { rootMargin: '120px', threshold: 0.1 }
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [proj.video]);
 
-  // Play/pause video on hover or mobile.
-  // preload="metadata" fetches just the video header (~20 KB) upfront so the
-  // browser can start decoding immediately on hover without a full download.
+  // Flip preload from "none" -> "metadata" the first time the card is in view.
   useEffect(() => {
-    if (!videoRef.current) return;
-    if (isMobile || isHovered) {
-      videoRef.current.play().catch(() => { });
+    if (isInView && videoRef.current && !preloadReady) {
+      videoRef.current.preload = 'metadata';
+      setPreloadReady(true);
+    }
+  }, [isInView, preloadReady]);
+
+  // Play / pause logic:
+  //  - Desktop: triggered by mouse hover
+  //  - Mobile:  triggered by IntersectionObserver (only the visible card plays)
+  useEffect(() => {
+    if (!videoRef.current || !videoReady) return;
+    const isMobileDevice = typeof window !== 'undefined' && window.innerWidth <= 768;
+    const shouldPlay = isMobileDevice ? isInView : isHovered;
+    if (shouldPlay) {
+      videoRef.current.play().catch(() => {});
     } else {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
-  }, [isMobile, isHovered]);
+  }, [isHovered, isInView, videoReady]);
 
-  const isVideoPlaying = isHovered || isMobile;
+  const isMobileDevice = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const isVideoPlaying = isMobileDevice ? isInView : isHovered;
 
   return (
     <div
       className="project-card"
+      ref={cardRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={e => {
@@ -271,7 +291,7 @@ function ProjectCard({ proj, i }) {
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                preload="none"
                 type="video/mp4"
                 onCanPlay={() => setVideoReady(true)}
                 style={{
@@ -334,7 +354,7 @@ function ProjectCard({ proj, i }) {
                 loop
                 muted
                 playsInline
-                preload="metadata"
+                preload="none"
                 onCanPlay={() => setVideoReady(true)}
                 style={{
                   position: 'absolute',
@@ -431,7 +451,7 @@ function ProjectCard({ proj, i }) {
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   onCanPlay={() => setVideoReady(true)}
                   style={{
                     position: 'absolute', top: 0, left: 0,
@@ -477,7 +497,7 @@ function ProjectCard({ proj, i }) {
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="none"
                   type="video/mp4"
                   onCanPlay={() => setVideoReady(true)}
                   style={{
